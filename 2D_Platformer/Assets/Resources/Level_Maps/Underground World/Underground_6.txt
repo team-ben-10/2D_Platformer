@@ -1,0 +1,2 @@
+time: 120
+50:This is a secrety item. It grants you to power to change gravity with [SPACEBAR].

@@ -1,0 +1,3 @@
+time:150
+50:Dont forget about the Sneak-Jump.
+75:Legends are told about a blue mushroom that shrinks you in size.

@@ -1,0 +1,2 @@
+time: 200
+150: Hallo ich bin ein Totenkopf

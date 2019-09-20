@@ -1,0 +1,7 @@
+Spawn-Point: (R:10;G:255;B:0)
+Spikes_Bottom: (R:255;G:10;B:0)
+Spikes-Top: (R:255;G:0;B:0)
+Check-Point: (R:255;G:255;B:0)
+Platform: (R:255;G:255;B:255)
+Big_Blocks: (R:50;G:50;B:50)
+Finish_Point: (R:0;G:255;B:0)

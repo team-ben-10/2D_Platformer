@@ -1,0 +1,8 @@
+time: -1
+25:Use [A] [D] to Move
+50:Use [Spacebar] to Jump. It is used to cross gaps or jump over obsticales.
+75:Use [Left Control] to Sneak. If you sneak you can crawl under certain Objects.
+100:Press [Spacebar] when you are on a wall to do a wall jump. But dont forget that you can only wall jump 3 times.
+125:Sneak on a wall to slowly move down a wall.
+150:These are enemies. If you touch them you die.
+175:If you Sneak on the Wall and then jump you can get higher and further. Its called a Sneak-Jump.
