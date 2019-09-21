@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 4122674336771757647}
-  SpaceBetweenOBJS: 0.955
+  SpaceBetweenOBJS: 1
   objs:
   - color: {r: 0, g: 0, b: 0, a: 1}
     obj: {fileID: 4456997021762424308, guid: dd95d4459b0ae0d40ae76b798ebd7f59, type: 3}
@@ -76,7 +76,7 @@ MonoBehaviour:
     isChild: 1
     isEntityObject: 0
     hasAlphaNBT: 1
-    offset: {x: 0, y: 0}
+    offset: {x: 0, y: 0.5}
   - color: {r: 1, g: 0.039215688, b: 0, a: 1}
     obj: {fileID: 5951690408288106139, guid: bb51a1d17dfe59540b4bfe0af5765e0c, type: 3}
     isChild: 1

@@ -27,6 +27,8 @@ public class CreatorManager : MonoBehaviour
     public int WIDTH = 300;
     public int HEIGHT = 150;
 
+    [HideInInspector] Texture2D generatedLevelMap;
+
     [System.Serializable]
     public class ObjClick
     {
@@ -39,6 +41,7 @@ public class CreatorManager : MonoBehaviour
 
     private void Start()
     {
+        generatedLevelMap = new Texture2D(WIDTH, HEIGHT);
         SetTo(false);
         isSelecting = true;
         cam.transform.position = new Vector3(WIDTH / 2, HEIGHT / 2, -10);
@@ -90,6 +93,23 @@ public class CreatorManager : MonoBehaviour
                     if (realPos.x >= 0 && realPos.x <= WIDTH && realPos.y >= 0 && realPos.y <= HEIGHT)
                     {
                         GameObject gb = Instantiate(selectedObject.gb, realPos + selectedObject.offset, selectedObject.gb.transform.rotation, GameManager.instance.levelLoader.transform);
+
+                        //Generate the texture2d that gets saved later
+                        if (gb.name.Replace("(Clone)", "") == "Player_Spawn")
+                        {
+                            generatedLevelMap.SetPixel((int)realPos.x, (int)realPos.y, new Color(10 / 255f, 1, 0, 1));
+                        }
+                        else
+                        {
+                            foreach (var item in GameManager.instance.levelLoader.objs)
+                            {
+                                if (gb.name.Replace("(Clone)", "") == item.obj.name)
+                                {
+                                    generatedLevelMap.SetPixel((int)realPos.x, (int)realPos.y, item.color);
+                                }
+                            }
+                        }
+
                         //gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
                         if (selectedObject.isEntityObject)
                         {
@@ -112,11 +132,13 @@ public class CreatorManager : MonoBehaviour
             if (Input.GetMouseButton(1) && !isSelecting)
             {
                 Vector3 pos = cam.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+                Vector3 realPos = new Vector3(Mathf.RoundToInt(pos.x / GameManager.instance.levelLoader.SpaceBetweenOBJS) * GameManager.instance.levelLoader.SpaceBetweenOBJS, Mathf.RoundToInt(pos.y / GameManager.instance.levelLoader.SpaceBetweenOBJS) * GameManager.instance.levelLoader.SpaceBetweenOBJS, 0);
                 foreach (var item in Physics2D.OverlapCircleAll(new Vector2(pos.x, pos.y), 0.05f))
                 {
                     GameManager.instance.levelLoader.entityObjects.Remove(item.gameObject);
                     GameManager.instance.levelLoader.OBJPos.Remove(item.transform.position);
                     Destroy(item.gameObject);
+                    generatedLevelMap.SetPixel((int)realPos.x, (int)realPos.y, new Color(0, 0, 0, 0));
                 }
             }
             if (Input.GetButtonDown("Jump"))
@@ -157,7 +179,7 @@ public class CreatorManager : MonoBehaviour
         string path = inputSave.GetComponent<InputField>().text;
         if (path != "")
         {
-            Texture2D text = new Texture2D(WIDTH, HEIGHT);
+            /*Texture2D text = new Texture2D(WIDTH, HEIGHT);
             for (int x = 0; x < WIDTH; x++)
             {
                 for (int y = 0; y < HEIGHT; y++)
@@ -186,8 +208,8 @@ public class CreatorManager : MonoBehaviour
                         text.SetPixel(x, y, new Color(0, 0, 0, 0));
                 }
             }
-            text.Apply();
-            File.WriteAllBytes(path, text.EncodeToPNG());
+            text.Apply();*/
+            File.WriteAllBytes(path, generatedLevelMap.EncodeToPNG());
         }
     }
 

@@ -335,11 +335,13 @@ public class GameManager : MonoBehaviour
     {
         if(GameObject.FindGameObjectWithTag("Player") != null)
         {
-            textPlayer1.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
+            if(textPlayer1 != null)
+                textPlayer1.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
         }
         if(GameObject.FindGameObjectWithTag("Player_2") != null)
         {
-            textPlayer2.transform.position = GameObject.FindGameObjectWithTag("Player_2").transform.position + Vector3.up;
+            if (textPlayer2 != null)
+                textPlayer2.transform.position = GameObject.FindGameObjectWithTag("Player_2").transform.position + Vector3.up;
         }
         TestForHiddenCombination();
 

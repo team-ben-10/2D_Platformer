@@ -97,18 +97,17 @@ public class Level_Editor : MonoBehaviour
             }
         }
         loadedOBJS.Clear();
-        bool done = false;
+
         for (int x = 0; x < sprite.width; x++)
         {
             for (int y = 0; y < sprite.height; y++)
             {
-                
                 Color c = sprite.GetPixel(x, y);
                 foreach (var item in objs)
                 {
                     if (!item.hasAlphaNBT)
                     {
-                        if (c == item.color)
+                        if (c.Equals(item.color))
                         {
                             if (CreatorManager.instance != null)
                             {
@@ -117,28 +116,9 @@ public class Level_Editor : MonoBehaviour
                                     GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
                                     gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
                                     gb.transform.SetParent(transform);
-                                    gb.AddComponent(render.GetType());
+                                    //gb.AddComponent(render.GetType());
                                 }
                                 else
-                                {
-                                    GameObject gb = Instantiate(item.obj, new Vector2(x, y) - offset + item.offset, Quaternion.identity);
-                                    gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
-                                    if (item.isChild)
-                                    {
-                                        gb.transform.SetParent(transform);
-                                    }
-                                    if (item.isEntityObject)
-                                    {
-                                        OBJPos.Add(gb.transform.position, item);
-                                        entityObjects.Add(gb);
-                                    }
-                                    gb.AddComponent(render.GetType());
-                                }
-                            }
-                            else
-                            {
-                                bool skip = true;
-                                if (skip)
                                 {
                                     GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
                                     if (item.isChild)
@@ -150,9 +130,24 @@ public class Level_Editor : MonoBehaviour
                                         OBJPos.Add(gb.transform.position, item);
                                         entityObjects.Add(gb);
                                     }
-                                    loadedOBJS.Add(gb);
-                                    gb.AddComponent(render.GetType());
+                                    //gb.AddComponent(render.GetType());
                                 }
+                            }
+                            else
+                            {
+                                Debug.Log(item.obj.name);
+                                GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
+                                if (item.isChild)
+                                {
+                                    gb.transform.SetParent(transform);
+                                }
+                                if (item.isEntityObject)
+                                {
+                                    OBJPos.Add(gb.transform.position, item);
+                                    entityObjects.Add(gb);
+                                }
+                                loadedOBJS.Add(gb);
+                                //gb.AddComponent(render.GetType());
                             }
                         }
                     }
@@ -175,12 +170,11 @@ public class Level_Editor : MonoBehaviour
                             }
                             loadedOBJS.Add(gb);
                             gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
-                            gb.AddComponent(render.GetType());
+                           // gb.AddComponent(render.GetType());
                         }
 
                     }
                 }
-                done = true;
             }
         }
         StartCoroutine(waitForPlayerSkin());

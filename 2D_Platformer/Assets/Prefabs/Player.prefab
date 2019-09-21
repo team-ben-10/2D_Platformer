@@ -203,6 +203,7 @@ MonoBehaviour:
   m_CeilingCheck: {fileID: 2075554123}
   m_CrouchDisableCollider: {fileID: 1600346329418522884}
   m_Grounded: 0
+  m_Velocity: {x: 0, y: 0, z: 0}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls:
@@ -241,8 +242,8 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: d064c4263ca61644898d8c0cd4141922, type: 2}
-  m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Interpolate: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1600346329418522884
@@ -349,6 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastCheckPoint: {fileID: 0}
+  mushRoomTime: 0
   isDead: 0
   mushroomEffect: {fileID: 0}
 --- !u!95 &3928321810371640231
