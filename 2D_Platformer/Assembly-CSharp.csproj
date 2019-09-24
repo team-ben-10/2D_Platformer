@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\CorruptedAbility.cs" />
     <Compile Include="Assets\Scripts\CreatorManager.cs" />
     <Compile Include="Assets\Scripts\Cutscene_1_Behaviour.cs" />
+    <Compile Include="Assets\Scripts\DashAbility.cs" />
     <Compile Include="Assets\Scripts\DataTransfer\Client\Client.cs" />
     <Compile Include="Assets\Scripts\DataTransfer\DataTransfer\DataTransfer\Client.cs" />
     <Compile Include="Assets\Scripts\DataTransfer\DataTransfer\DataTransfer\CommandAttribute.cs" />
