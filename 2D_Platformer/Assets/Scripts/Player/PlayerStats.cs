@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerStats : CharacterStats
 {
 
-    public Transform lastCheckPoint;
+    public Vector3 lastCheckPoint;
     [HideInInspector] public float mushRoomTime;
     float maxMushRoomTime;
     bool wasOnIce;
@@ -127,16 +127,16 @@ public class PlayerStats : CharacterStats
                 GameObject.FindGameObjectWithTag("Player_2").GetComponent<PlayerStats>().Die();
             }
             GetComponent<PlayerMovement>().hasSpawnedSecondPlayer = false;
-            if (lastCheckPoint != null)
-            {
+            /*if (lastCheckPoint != null)
+            {*/
                 StartCoroutine(waitForDelayDeath2());
-            }
+            /*}
             else
             {
                 GameManager.instance.levelLoader.CamFollowPlayer = false;
                 GameManager.instance.levelLoader.cam.SetFollow(null);
                 StartCoroutine(waitForReload());
-            }
+            }*/
         }
     }
 
@@ -147,7 +147,7 @@ public class PlayerStats : CharacterStats
         Destroy(gameObject);
     }
 
-    IEnumerator waitForReload()
+    /*IEnumerator waitForReload()
     {
         yield return new WaitForSeconds(2);
         GameManager.instance.Restart(false);
@@ -157,13 +157,13 @@ public class PlayerStats : CharacterStats
         GetComponent<Rigidbody2D>().simulated = true;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         isDead = false;
-    }
+    }*/
 
     IEnumerator waitForDelayDeath2()
     {
         yield return new WaitForSeconds(2);
         GameManager.instance.levelLoader.LoadEntityObjects();
-        transform.position = lastCheckPoint.position + new Vector3(0, 0.5f, 0);
+        transform.position = lastCheckPoint + new Vector3(0, 0.5f, 0);
         GetComponent<PlayerMovement>().enabled = true;
         GetComponent<Animator>().SetBool("Dead", false);
         GetComponent<Rigidbody2D>().simulated = true;

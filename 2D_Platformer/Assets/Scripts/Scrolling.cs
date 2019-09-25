@@ -29,20 +29,16 @@ public class Scrolling : MonoBehaviour
         {
             layers[i] = transform.GetChild(i);
         }
-
+        
         leftIndex = 0;
         rightIndex = layers.Length-1;
         ScrollRight();
-
+        ScrollRight();
+        //ScrollLeft();
     }
 
     private void Update()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-            return;
-        }
         transform.localScale = new Vector3(Camera.main.transform.localScale.x*((Camera.main.orthographicSize/10)+1), Camera.main.transform.localScale.y * ((Camera.main.orthographicSize / 10) + 1));
         backgroundSize = offsetSize*transform.localScale.x;
         transform.position = new Vector3(transform.position.x, Camera.main.transform.position.y, transform.position.z);
@@ -52,6 +48,11 @@ public class Scrolling : MonoBehaviour
         lastCameraX = cameraTransform.position.x;
         float leftCheck = (layers[leftIndex].transform.position.x + viewzone);
         float rightCheck = (layers[rightIndex].transform.position.x - viewzone);
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            return;
+        }
         if (player.transform.position.x < leftCheck)
         {
             ScrollLeft();
@@ -66,13 +67,17 @@ public class Scrolling : MonoBehaviour
     private void ScrollLeft()
     {
         int lastright = rightIndex;
-        layers[rightIndex].position = Vector3.right * (layers[leftIndex].position.x - backgroundSize)+Vector3.forward + new Vector3(0,Camera.main.transform.position.y,0);
-        leftIndex = rightIndex;
-        rightIndex--;
-        if (rightIndex < 1)
-        {
-            rightIndex = layers.Length - 1;
-        }
+        if (layers != null)
+            if (layers[leftIndex] != null && layers[rightIndex] != null && Camera.main != null)
+            {
+                layers[rightIndex].position = Vector3.right * (layers[leftIndex].position.x - backgroundSize) + Vector3.forward + new Vector3(0, Camera.main.transform.position.y, 0);
+                leftIndex = rightIndex;
+                rightIndex--;
+                if (rightIndex < 1)
+                {
+                    rightIndex = layers.Length - 1;
+                }
+            }
     }
     public void ScrollRight()
     {

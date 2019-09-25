@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using UnityEngine;
 
 public class Level_Editor : MonoBehaviour
@@ -10,7 +11,7 @@ public class Level_Editor : MonoBehaviour
     public Behaviour render;
 
     private void OnDrawGizmosSelected()
-    {
+    { 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(Vector2.zero - offset, 0.1f);
     }
@@ -84,8 +85,8 @@ public class Level_Editor : MonoBehaviour
     public void LoadLevel()
     {
         //objs.ForEach((x) => Debug.Log(x.obj.name + " " + x.hasAlphaNBT));
-        if (GameObject.FindGameObjectWithTag("Player") != null)
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = null;
+       /*if (GameObject.FindGameObjectWithTag("Player") != null)
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = Vector3.zero;*/
 
         entityObjects.Clear();
         OBJPos.Clear();
@@ -97,26 +98,42 @@ public class Level_Editor : MonoBehaviour
             }
         }
         loadedOBJS.Clear();
-
         for (int x = 0; x < sprite.width; x++)
         {
             for (int y = 0; y < sprite.height; y++)
             {
                 Color c = sprite.GetPixel(x, y);
-                foreach (var item in objs)
+                if (c.a > 0)
                 {
-                    if (!item.hasAlphaNBT)
+                    foreach (var item in objs)
                     {
-                        if (c.Equals(item.color))
+                        if (!item.hasAlphaNBT)
                         {
-                            if (CreatorManager.instance != null)
+                            if (c.Equals(item.color))
                             {
-                                if (item.obj.name == "Player")
+                                if (CreatorManager.instance != null)
                                 {
-                                    GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
-                                    gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
-                                    gb.transform.SetParent(transform);
-                                    //gb.AddComponent(render.GetType());
+                                    if (item.obj.name == "Player")
+                                    {
+                                        GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
+                                        gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
+                                        gb.transform.SetParent(transform);
+                                        //gb.AddComponent(render.GetType());
+                                    }
+                                    else
+                                    {
+                                        GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
+                                        if (item.isChild)
+                                        {
+                                            gb.transform.SetParent(transform);
+                                        }
+                                        if (item.isEntityObject)
+                                        {
+                                            OBJPos.Add(gb.transform.position, item);
+                                            entityObjects.Add(gb);
+                                        }
+                                        //gb.AddComponent(render.GetType());
+                                    }
                                 }
                                 else
                                 {
@@ -130,12 +147,15 @@ public class Level_Editor : MonoBehaviour
                                         OBJPos.Add(gb.transform.position, item);
                                         entityObjects.Add(gb);
                                     }
+                                    loadedOBJS.Add(gb);
                                     //gb.AddComponent(render.GetType());
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            if (c.r == item.color.r && c.b == item.color.b && c.g == item.color.g)
                             {
-                                Debug.Log(item.obj.name);
                                 GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
                                 if (item.isChild)
                                 {
@@ -143,47 +163,29 @@ public class Level_Editor : MonoBehaviour
                                 }
                                 if (item.isEntityObject)
                                 {
-                                    OBJPos.Add(gb.transform.position, item);
+                                    ColorObj cO = new ColorObj(item.color, item.obj, item.isChild, item.isEntityObject, item.hasAlphaNBT, item.offset);
+                                    cO.color.a = c.a;
+                                    OBJPos.Add(gb.transform.position, cO);
                                     entityObjects.Add(gb);
                                 }
                                 loadedOBJS.Add(gb);
-                                //gb.AddComponent(render.GetType());
+                                gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
+                                // gb.AddComponent(render.GetType());
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (c.r == item.color.r && c.b == item.color.b && c.g == item.color.g && c.a > 0)
-                        {
-                            Debug.Log(item.obj.name);
-                            GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
-                            if (item.isChild)
-                            {
-                                gb.transform.SetParent(transform);
-                            }
-                            if (item.isEntityObject)
-                            {
-                                ColorObj cO = new ColorObj(item.color, item.obj, item.isChild, item.isEntityObject, item.hasAlphaNBT, item.offset);
-                                cO.color.a = c.a;
-                                OBJPos.Add(gb.transform.position, cO);
-                                entityObjects.Add(gb);
-                            }
-                            loadedOBJS.Add(gb);
-                            gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
-                           // gb.AddComponent(render.GetType());
-                        }
 
+                        }
                     }
                 }
             }
         }
         StartCoroutine(waitForPlayerSkin());
     }
-
+    
     public IEnumerator waitForPlayerSkin()
     {
         yield return null;
-        var c = Array.Find(GameManager.instance.characters.ToArray(), (item => item.controller == GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().runtimeAnimatorController));
+        var animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        var c = Array.Find(GameManager.instance.characters.ToArray(), (item => item.controller == animator.runtimeAnimatorController));
         if (c != null)
             GameManager.instance.UpdatePlayer();
     }

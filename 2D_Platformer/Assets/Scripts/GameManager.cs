@@ -223,38 +223,41 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayer()
     {
-
         Debug.Log("Load Player!");
         string path = Application.persistentDataPath + "/Character.dat";
         if (File.Exists(path))
         {
-            var lines = File.ReadAllLines(path);
-            foreach (var character in characters)
+            for (int i = 1; i <= 2; i++)
             {
-                if (character.name == lines[0])
+                var lines = File.ReadAllLines(path);
+                foreach (var character in characters)
                 {
-                    var player = GameObject.FindGameObjectWithTag("Player");
-                    foreach (var item in player.GetComponents<Ability>())
+                    if (character.name == lines[i-1])
                     {
-                        Destroy(item);
-                    }
-                    player.GetComponent<Animator>().runtimeAnimatorController = character.controller;
-                    foreach (var behaviour in character.addBehaviours)
-                    {
-                        if (behaviour is Ability)
+                        var player = GameObject.FindGameObjectWithTag("Player" + ((i != 1)?("_" + i):""));
+                        if (player != null)
                         {
-                            Ability a = (Ability)player.AddComponent(behaviour.GetType());
-                            a.sprite = character.activationSprite;
-                            a.objsToSpawn = character.objsToSpawn;
+                            player.GetComponent<PlayerStats>().lastCheckPoint = player.transform.position;
+                            foreach (var item in player.GetComponents<Ability>())
+                            {
+                                Destroy(item);
+                            }
+                            player.GetComponent<Animator>().runtimeAnimatorController = character.controller;
+                            foreach (var behaviour in character.addBehaviours)
+                            {
+                                if (behaviour is Ability)
+                                {
+                                    Ability a = (Ability)player.AddComponent(behaviour.GetType());
+                                    a.sprite = character.activationSprite;
+                                    a.objsToSpawn = character.objsToSpawn;
+                                }
+                            }
+                            break;
                         }
                     }
-                    
-                    break;
                 }
             }
-            if (GameObject.FindGameObjectWithTag("Player_2"))
-            {
-                foreach (var character in characters)
+                /*foreach (var character in characters)
                 {
                     if (character.name == lines[1])
                     {
@@ -276,14 +279,14 @@ public class GameManager : MonoBehaviour
 
                         break;
                     }
-                }
-            }
+                }*/
         }
         else
         {
             File.Create(path).Close();
             File.WriteAllLines(path, new string[] { "Standard", "Standard" });
         }
+
     }
 
 
@@ -319,7 +322,7 @@ public class GameManager : MonoBehaviour
         }
         instance = this;
         currentTime = time;
-        Application.targetFrameRate = 60;
+        /*Application.targetFrameRate = 60;*/
         SetupUnlocables();
         for (int i = 0; i < currentQuests.Count; i++)
         {
@@ -333,7 +336,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameObject.FindGameObjectWithTag("Player") != null)
+        /*if(GameObject.FindGameObjectWithTag("Player") != null)
         {
             if(textPlayer1 != null)
                 textPlayer1.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
@@ -342,7 +345,7 @@ public class GameManager : MonoBehaviour
         {
             if (textPlayer2 != null)
                 textPlayer2.transform.position = GameObject.FindGameObjectWithTag("Player_2").transform.position + Vector3.up;
-        }
+        }*/
         TestForHiddenCombination();
 
         if (onlyUnlocables)
@@ -403,6 +406,9 @@ public class GameManager : MonoBehaviour
         }
         levelLoader.sprite = texture;
         levelLoader.LoadLevel();
+        var player = GameObject.FindGameObjectWithTag("Player");
+        GameObject gb = new GameObject("Player_Spawn");
+        gb.transform.position = player.transform.position;
         UpdatePlayer();
         if (textfile != null)
         {

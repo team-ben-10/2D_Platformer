@@ -13,7 +13,7 @@ public class CheckPoint : MonoBehaviour
         if ((collision.tag == "Player" || collision.tag == "Player_2") && !isTriggered)
         {
             isTriggered = true;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = transform;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = transform.position;
             if (checkedSprite != null)
             {
                 GetComponent<SpriteRenderer>().sprite = checkedSprite;

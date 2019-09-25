@@ -227,7 +227,7 @@ public class CreatorManager : MonoBehaviour
             if (GameManager.instance.levelLoader.transform.GetComponentInChildren<Player_Spawner>() != null)
             {
                 GameManager.instance.levelLoader.transform.GetComponentInChildren<Player_Spawner>().SpawnPlayer();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = GameManager.instance.levelLoader.transform.GetComponentInChildren<Player_Spawner>().transform;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = GameManager.instance.levelLoader.transform.GetComponentInChildren<Player_Spawner>().transform.position;
             }
         }
         else

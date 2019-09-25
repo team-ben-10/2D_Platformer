@@ -33,6 +33,7 @@ public class Level_Selector : MonoBehaviour
     public List<World> worlds = new List<World>();
     public GameObject Level_Select_Prefab;
     public GameObject World_Prefab;
+    public Transform Content;
     public int lastStarAmount = 3;
     [HideInInspector] public int lastStarSumAmount = 0;
 
@@ -45,7 +46,7 @@ public class Level_Selector : MonoBehaviour
         int levelIndex = 1;
         foreach (var world in worlds)
         {
-            GameObject wGB = Instantiate(World_Prefab, transform);
+            GameObject wGB = Instantiate(World_Prefab, Content);
             GameObject worldGB = wGB.transform.GetChild(0).gameObject;
             if (lastStarSumAmount >= world.starAmount)
             {
@@ -101,9 +102,11 @@ public class Level_Selector : MonoBehaviour
                     gb.GetComponent<Level_Selection_Prefab>().notUsable();
                 }
             }
+            //worldGB.GetComponent<ScrollRect>().GraphicUpdateComplete();
             worldIndex++;
             levelIndex = 1;
         }
+        transform.GetComponent<ScrollRect>().Rebuild(CanvasUpdate.MaxUpdateValue);
     }
 
     public void ResetScores()
