@@ -44,7 +44,7 @@ public class VisInstaKillMushroomEffect : MushroomEffect
         if(!givenDarkness)
             if(GameManager.instance.currentQuests.Exists((x)=>x.name == "A Mysterious Heart"))
             {
-                GameManager.instance.CheckQuests("A Mysterious Heart", 5);
+                GameManager.instance.CheckQuests("A Mysterious Heart");
                 givenDarkness = true;
             }
         if (GameObject.FindGameObjectsWithTag("LeverInteract").Length > 0)

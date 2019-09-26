@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]public float horizontalMove = 0f;
     public float runSpeed = 40f;
     bool jump = false;
-    bool crouch = false;
+    [HideInInspector] public bool crouch = false;
     [HideInInspector] public bool onWall = false;
     public GameObject wallDetector;
     public bool isSecondPlayer;
@@ -133,22 +133,32 @@ public class PlayerMovement : MonoBehaviour
             controller.m_AirControl = false;
             coroutineWallJump = StartCoroutine(waitForWalljump());
             animator.SetBool("Jump", true);
+            wallStuckTime = 0;
         }
 
-        if (onWall && crouch && !isGravityChanged && !controller.m_Grounded)
+        if (onWall && crouch && !isGravityChanged && !controller.m_Grounded && wallStuckTime <= 2)
         {
-            GetComponent<Rigidbody2D>().gravityScale /= 12;
+            GetComponent<Rigidbody2D>().gravityScale = 0;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             isGravityChanged = true;
         }
-        if ((!onWall || !crouch || controller.m_Grounded) && isGravityChanged)
+        if(onWall && crouch && !controller.m_Grounded && wallStuckTime <= 2)
         {
-            GetComponent<Rigidbody2D>().gravityScale *= 12;
+            wallStuckTime += Time.fixedDeltaTime;
+        }
+        if (((!onWall || !crouch || controller.m_Grounded) && isGravityChanged)||wallStuckTime > 2)
+        {
+            GetComponent<Rigidbody2D>().gravityScale = 3;
             isGravityChanged = false;
         }
+        if (controller.m_Grounded)
+            wallStuckTime = 0;
+    
         controller.Move(horizontalMove * Time.deltaTime, crouch, jump);
         jump = false;
     }
+
+    float wallStuckTime = 0;
 
     public void OnLanding()
     {

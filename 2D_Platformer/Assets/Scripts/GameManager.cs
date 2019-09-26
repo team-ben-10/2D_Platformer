@@ -69,6 +69,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddQuest(Quest name)
+    {
+        foreach (var item in instance.allQuests)
+        {
+            if (item.name == name.name)
+            {
+                Debug.Log("Quest found!");
+                if (!instance.currentQuests.Contains(item))
+                {
+                    Debug.Log(name + " added");
+                    string path = Application.persistentDataPath + "/Quests/" + item.name + ".quest";
+                    instance.currentQuests.Add(item);
+                    File.Create(path).Close();
+                    File.WriteAllLines(path, item.GetSaveString());
+                    return;
+                }
+            }
+        }
+    }
+
     public void AddQuest(string name)
     {
         foreach (var item in instance.allQuests)
@@ -82,9 +102,8 @@ public class GameManager : MonoBehaviour
                     string path = Application.persistentDataPath + "/Quests/" + item.name + ".quest";
                     instance.currentQuests.Add(item);
                     File.Create(path).Close();
-                    File.WriteAllLines(path, new string[] { "unlocables:" + item.AmountForUnlocable, "completed:" + item.isCompleted });
+                    File.WriteAllLines(path, item.GetSaveString());
                     return;
-
                 }
             }
         }
@@ -153,17 +172,17 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void CheckQuests(string name, int amount = 1)
+    public void CheckQuests(string name)
     {
         for (int i = 0; i < currentQuests.Count; i++)
         {
             var item = currentQuests[i];
             if (item.name == name)
             {
-                if (!item.CheckForFinishedAdd(amount))
+                if (!item.Check())
                 {
                     string path = Application.persistentDataPath + "/Quests/" + item.name + ".quest";
-                    File.WriteAllLines(path, new string[] { "unlocables:" + item.AmountForUnlocable, "completed:" + item.isCompleted });
+                    File.WriteAllLines(path, item.GetSaveString());
                 }
             }
         }
@@ -312,8 +331,9 @@ public class GameManager : MonoBehaviour
                     if (quest.name == part)
                     {
                         Quest q = quest;
-                        q.AmountForUnlocable = int.Parse(File.ReadAllLines(item)[0].Replace("unlocables:", ""));
-                        q.isCompleted = bool.Parse(File.ReadAllLines(item)[1].Replace("completed:", ""));
+                        q.Setup(File.ReadAllLines(item));
+                        /*q.AmountForUnlocable = int.Parse(File.ReadAllLines(item)[0].Replace("unlocables:", ""));
+                        q.isCompleted = bool.Parse(File.ReadAllLines(item)[1].Replace("completed:", ""));*/
                         currentQuests.Add(q);
                         Debug.Log(quest.name + " added");
                     }

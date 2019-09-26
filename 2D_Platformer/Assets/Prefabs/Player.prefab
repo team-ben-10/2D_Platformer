@@ -203,6 +203,7 @@ MonoBehaviour:
   m_CeilingCheck: {fileID: 2075554123}
   m_CrouchDisableCollider: {fileID: 1600346329418522884}
   m_Grounded: 0
+  m_FacingRight: 1
   m_Velocity: {x: 0, y: 0, z: 0}
   OnLandEvent:
     m_PersistentCalls:
@@ -259,7 +260,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00023468211, y: -0.013864875}
+  m_Offset: {x: -0.00023467839, y: -0.010072174}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -270,7 +271,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.13916805, y: 0.11433822}
+  m_Size: {x: 0.13916805, y: 0.121923625}
   m_EdgeRadius: 0
 --- !u!58 &553367225
 CircleCollider2D:
@@ -331,6 +332,7 @@ MonoBehaviour:
   maxWallJumpCount: 3
   horizontalMove: 0
   runSpeed: 60
+  crouch: 0
   onWall: 0
   wallDetector: {fileID: 856350898}
   isSecondPlayer: 0
@@ -349,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a490a89c9b22949ae6727881a2f40e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastCheckPoint: {fileID: 0}
+  lastCheckPoint: {x: 0, y: 0, z: 0}
   mushRoomTime: 0
   isDead: 0
   mushroomEffect: {fileID: 0}

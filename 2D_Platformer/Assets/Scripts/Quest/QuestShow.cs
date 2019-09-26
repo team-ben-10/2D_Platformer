@@ -29,23 +29,23 @@ public class QuestShow : MonoBehaviour
         gb.SetActive(true);
         titletext.text = quest.name;
         infotext.text = quest.infoText;
-        if (quest.maxAmountForUnlocable > 0)
+        /*if (quest.maxAmountForUnlocable > 0)
         {
             collectedtext.text = quest.AmountForUnlocable + "/" + quest.maxAmountForUnlocable;
         }
         else
         {
-            collectedtext.gameObject.SetActive(false);
-        }
-        if (!quest.needsSomethingElseCompleted)
+            */collectedtext.gameObject.SetActive(false);/*
+        }*/
+        /*if (!quest.needsSomethingElseCompleted)
         {
             completedImage.gameObject.SetActive(false);
         }
         else
-        {
+        {*/
             completedImage.gameObject.SetActive(true);
             if (quest.isCompleted)
                 completedImage.sprite = correct;
-        }
+        //}
     }
 }

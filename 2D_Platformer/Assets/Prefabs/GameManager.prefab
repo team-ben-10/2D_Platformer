@@ -99,6 +99,14 @@ MonoBehaviour:
     activationSprite: {fileID: 0}
     objsToSpawn:
     - {fileID: 1048239402356190752, guid: 5768cb5ae8b31b043a6604ee1b6e6147, type: 3}
+  - name: Ninja
+    controller: {fileID: 9100000, guid: 611535933f1c7f046b28342ed2fc0daf, type: 2}
+    addBehaviours:
+    - {fileID: 1215388527}
+    - {fileID: 1418762640001355792}
+    activationSprite: {fileID: 0}
+    objsToSpawn:
+    - {fileID: 5438467051080060504, guid: a32fa0ed78562854eb9bbf35c1ebedea, type: 3}
   unlocables:
   - name: Dungeon
   - name: Alien_Skin
@@ -106,115 +114,7 @@ MonoBehaviour:
   - name: Knight_Skin
   - name: Corrupted_Skin
   allQuests:
-  - name: The Biggest Challenge
-    unlocableName:
-    - Dungeon
-    infoText: Complete the whole Game to unlock the Dungeon.
-    finished: 0
-    maxAmountForUnlocable: -1
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: 
-  - name: Back In Time
-    unlocableName:
-    - Stone_Skin
-    infoText: "Wouldn\xB4t it be fun if you could slow down time?"
-    finished: 0
-    maxAmountForUnlocable: -1
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: 
-  - name: From The Skies (1)
-    unlocableName: []
-    infoText: You feel like a strange presence is watching over you from the skies.
-      Collect all the mysterious fruits hidden in the different levels.
-    finished: 0
-    maxAmountForUnlocable: 20
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 0
-    isCompleted: 0
-    questAfter: From The Skies (2)
-  - name: From The Skies (2)
-    unlocableName:
-    - Alien_Skin
-    infoText: You now know what the strange presence is. Climb to a high point to
-      get in contact with the alien.
-    finished: 0
-    maxAmountForUnlocable: -1
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: 
-  - name: Long Forgotten Sword
-    unlocableName: []
-    infoText: The mysterious Lava Beast asked you to get a secret Sword long forgotten
-      by everyone. Find it.
-    finished: 0
-    maxAmountForUnlocable: -1
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: The Lava Sword
-  - name: The Lava Sword
-    unlocableName:
-    - Knight_Skin
-    infoText: Now that you have the sword in your hand head back to the Lava Beast
-      to get your present.
-    finished: 0
-    maxAmountForUnlocable: -1
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: 
-  - name: A Mysterious Heart
-    unlocableName: []
-    infoText: 'The Heart from the Mysterious Corrupted Lava Monster.
-
-      Gather enough Darkness to refill all of its energy!'
-    finished: 0
-    maxAmountForUnlocable: 100
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 0
-    isCompleted: 0
-    questAfter: A Heart of Darkness
-  - name: A Heart of Darkness
-    unlocableName: []
-    infoText: "The Heart is completly filled up with Darkness. \nNow go back to the
-      place you found it and enhance it by defeating a corrupted Monster."
-    finished: 0
-    maxAmountForUnlocable: 0
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: Enhanced Heart of Darkness
-  - name: Enhanced Heart of Darkness
-    unlocableName: []
-    infoText: 'Now the Heart is ready to be awakend.
-
-      Find shrines to gather Awakening Power.'
-    finished: 0
-    maxAmountForUnlocable: 100
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 0
-    isCompleted: 0
-    questAfter: Awakend Heart of Darkness
-  - name: Awakend Heart of Darkness
-    unlocableName:
-    - Corrupted_Skin
-    infoText: 'The Heart is now completed.
-
-      Find the Shrine of Reincarnation and fullfill the Last Wish from the Corrupted
-      Lava Monster.
-
-'
-    finished: 0
-    maxAmountForUnlocable: -1
-    AmountForUnlocable: 0
-    needsSomethingElseCompleted: 1
-    isCompleted: 0
-    questAfter: 
+  - {fileID: 11400000, guid: 1b1bc8f99901eb6468b5cf1b272f319e, type: 2}
   currentQuests: []
   hiddenCombis: []
 --- !u!1 &3553923706652637197
@@ -231,6 +131,7 @@ GameObject:
   - component: {fileID: 6102162450824355141}
   - component: {fileID: 5228674722970831000}
   - component: {fileID: 1215388527}
+  - component: {fileID: 1418762640001355792}
   m_Layer: 0
   m_Name: Abilities
   m_TagString: Untagged
@@ -318,6 +219,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc704712f2b6cdb468c7fde418f116f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  objsToSpawn: []
+--- !u!114 &1418762640001355792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3553923706652637197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c424ea0efa680a043b4b27e9af688b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}

@@ -35,6 +35,31 @@ public class Item : MonoBehaviour
         if (!used)
         {
             GetComponent<Animator>().SetBool("Pickup", true);
+
+            Quest q = GameManager.instance.currentQuests.Find(x => x.name == questName);
+            
+            if (q == null)
+            {
+                GameManager.instance.AddQuest(questName);
+                GameManager.instance.CheckQuests(questName);
+                Destroy(gameObject, 1f);
+            }
+            else
+            {
+                CollectableQuest collectableQuest = (CollectableQuest)q;
+                if (questItemPickup)
+                {
+                    collectableQuest.collectableAmount++;
+                    GameManager.instance.CheckQuests(questName);
+                    Destroy(gameObject, 1f);
+                }
+            }
+
+            used = true;
+        }
+        /*if (!used)
+        {
+            GetComponent<Animator>().SetBool("Pickup", true);
             used = true;
             foreach (var item in GameManager.instance.allQuests)
             {
@@ -61,6 +86,6 @@ public class Item : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
 }
