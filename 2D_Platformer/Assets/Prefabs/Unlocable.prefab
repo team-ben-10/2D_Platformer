@@ -129,5 +129,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577dae4d7058b704c989c5554382be37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questName: From The Skies (1)
+  questName: From The Skies
   questItemPickup: 0

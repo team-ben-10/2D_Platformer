@@ -68,4 +68,14 @@ public class Quest : ScriptableObject
     {
         return isFinished();
     }
+
+    public virtual Quest Copy()
+    {
+        Quest q = (Quest)System.Activator.CreateInstance(GetType());
+        q.name = name;
+        q.isCompleted = isCompleted;
+        q.infoText = infoText;
+        q.questAfter = questAfter;
+        return q;
+    }
 }

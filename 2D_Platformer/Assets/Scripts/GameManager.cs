@@ -174,6 +174,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckQuests(string name)
     {
+        Debug.Log("Checking Quest");
         for (int i = 0; i < currentQuests.Count; i++)
         {
             var item = currentQuests[i];
@@ -330,7 +331,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (quest.name == part)
                     {
-                        Quest q = quest;
+                        Quest q = quest.Copy();
                         q.Setup(File.ReadAllLines(item));
                         /*q.AmountForUnlocable = int.Parse(File.ReadAllLines(item)[0].Replace("unlocables:", ""));
                         q.isCompleted = bool.Parse(File.ReadAllLines(item)[1].Replace("completed:", ""));*/
@@ -356,6 +357,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        //TESTING
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            GameManager.instance.CheckQuests("Test Multiple Step Quest");
+        }
         /*if(GameObject.FindGameObjectWithTag("Player") != null)
         {
             if(textPlayer1 != null)

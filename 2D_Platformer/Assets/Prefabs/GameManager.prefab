@@ -115,6 +115,8 @@ MonoBehaviour:
   - name: Corrupted_Skin
   allQuests:
   - {fileID: 11400000, guid: 1b1bc8f99901eb6468b5cf1b272f319e, type: 2}
+  - {fileID: 11400000, guid: dff70321744764241baf612b7aa2ae3e, type: 2}
+  - {fileID: 11400000, guid: 7f2660478defc5a47b350ade9f5f9e6d, type: 2}
   currentQuests: []
   hiddenCombis: []
 --- !u!1 &3553923706652637197

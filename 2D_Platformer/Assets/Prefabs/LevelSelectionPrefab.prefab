@@ -536,7 +536,7 @@ MonoBehaviour:
   background: {fileID: 0}
   cutSceneName: 
   startWithCutscene: 0
-  isEnabled: 0
+  isEnabled: 1
   diamond_Fills:
   - {fileID: 8788291299447359327}
   - {fileID: 2317984731826417148}

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Collectable Quest", menuName = "Quests/New Collectable Quest")]
 public class CollectableQuest : Quest
 {
-    public int collectableAmount;
+    [HideInInspector]public int collectableAmount;
     public int MaxAmountCollectable;
 
     public override void Setup(string[] lines)
@@ -44,5 +44,12 @@ public class CollectableQuest : Quest
     public override string[] GetSaveString()
     {
         return new string[] { "collectables:" + collectableAmount,"completed:" + isCompleted };
+    }
+
+    public override Quest Copy()
+    {
+        CollectableQuest q = (CollectableQuest)base.Copy();
+        q.MaxAmountCollectable = MaxAmountCollectable;
+        return q;
     }
 }
