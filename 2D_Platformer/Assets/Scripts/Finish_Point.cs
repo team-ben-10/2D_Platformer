@@ -20,7 +20,7 @@ public class Finish_Point : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.tag == "Player" || collision.tag == "Player_2") && !isTriggered)
+        if (collision.tag.StartsWith("Player") && !isTriggered)
         {
             if (GetComponent<AlphaNBTTag>() != null)
             {

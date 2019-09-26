@@ -51,7 +51,7 @@ public class Quest : ScriptableObject
             }
             if (questAfter != null)
             {
-                GameManager.instance.AddQuest(questAfter);
+                GameManager.instance.AddQuest(questAfter.Copy());
             }
             DeleteOldData();
             return true;

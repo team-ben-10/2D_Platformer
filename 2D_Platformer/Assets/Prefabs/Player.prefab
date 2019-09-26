@@ -335,10 +335,10 @@ MonoBehaviour:
   crouch: 0
   onWall: 0
   wallDetector: {fileID: 856350898}
-  isSecondPlayer: 0
-  second_Player: {fileID: 3171209620580287741, guid: dfa12b5a3bd75624e9046761db39ed7c,
-    type: 3}
-  hasSpawnedSecondPlayer: 0
+  isNotMain: 0
+  otherPlayer: {fileID: 3171209620580287741}
+  PlayerSpawnIndex: 2
+  MaxPlayerAtATime: 4
 --- !u!114 &3338122321634410226
 MonoBehaviour:
   m_ObjectHideFlags: 0

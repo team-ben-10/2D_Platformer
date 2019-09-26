@@ -13,7 +13,7 @@ public class Lever : MonoBehaviour
 
     public virtual void OnTriggerStay2D(Collider2D coll)
     {
-        if (coll.tag == "Player")
+        if (coll.tag.StartsWith("Player"))
         {
             if (!hasDone)
             {
@@ -27,23 +27,11 @@ public class Lever : MonoBehaviour
                 hasDone = true;
             }
         }
-        if (coll.tag == "Player_2")
-            if (!hasDone)
-            {
-                foreach (var item in GameObject.FindGameObjectsWithTag("LeverInteract"))
-                {
-                    if (item.GetComponent<LevelInteracte>().NBT == alphaNBT)
-                    {
-                        item.GetComponent<LevelInteracte>().InteractOn();
-                    }
-                }
-                hasDone = true;
-            }
     }
 
     public virtual void OnTriggerExit2D(Collider2D coll)
     {
-        if (coll.tag == "Player")
+        if (coll.tag.StartsWith("Player"))
         {
             if (hasDone)
             {
@@ -57,17 +45,5 @@ public class Lever : MonoBehaviour
                 hasDone = false;
             }
         }
-        if(coll.tag == "Player_2")
-            if (hasDone)
-            {
-                foreach (var item in GameObject.FindGameObjectsWithTag("LeverInteract"))
-                {
-                    if (item.GetComponent<LevelInteracte>().NBT == alphaNBT)
-                    {
-                        item.GetComponent<LevelInteracte>().InteractOff();
-                    }
-                }
-                hasDone = false;
-            }
     }
 }

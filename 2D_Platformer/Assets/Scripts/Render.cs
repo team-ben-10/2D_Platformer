@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Render : MonoBehaviour
 {
-    private void OnBecameInvisible()
+    SpriteRenderer renderer;
+    private void Start()
     {
-
+        renderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnBecameVisible()
+    void Update()
     {
-
+        if (renderer != null)
+        {
+            bool isVisible = Camera.main.IsObjectVisible(renderer);
+            renderer.enabled = isVisible;
+        }
     }
 }

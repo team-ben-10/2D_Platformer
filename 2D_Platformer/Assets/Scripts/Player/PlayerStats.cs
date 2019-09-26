@@ -63,12 +63,13 @@ public class PlayerStats : CharacterStats
     {
         var gb = GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>();
         while (gb.targets.Count <= 0) { yield return null; }
-        if (!GetComponent<PlayerMovement>().isSecondPlayer)
+        if (!GetComponent<PlayerMovement>().isNotMain)
             GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets[0] = transform;
     }
 
     private void Start()
     {
+        lastCheckPoint = transform.position;
         StartCoroutine(CameraUpdate());
         StartCoroutine(waitForPlayerSkin());
         GameObject.Find("Back").GetComponent<Scrolling>().ScrollRight();
@@ -94,15 +95,16 @@ public class PlayerStats : CharacterStats
 
     public override void Die()
     {
-        if (GetComponent<PlayerMovement>().isSecondPlayer && !isDead)
+        if (GetComponent<PlayerMovement>().isNotMain && !isDead)
         {
             GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Remove(transform);
             isDead = true;
             GetComponent<Animator>().SetBool("Dead", true);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().hasSpawnedSecondPlayer = false;
+            //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().hasSpawnedSecondPlayer = false;
             GetComponent<Rigidbody2D>().simulated = false;
             GetComponent<PlayerMovement>().enabled = false;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().Die();
+            if(!GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().isDead)
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().Die();
             StartCoroutine(waitForDeath());
             return;
         }
@@ -122,14 +124,22 @@ public class PlayerStats : CharacterStats
             GetComponent<Animator>().SetBool("Dead", true);
             GetComponent<Animator>().SetBool("Crouch", false);
             GetComponent<Animator>().SetBool("Jump", false);
-            if (GetComponent<PlayerMovement>().hasSpawnedSecondPlayer)
+            GetComponent<PlayerMovement>().PlayerSpawnIndex = 2;
+            /*if (GetComponent<PlayerMovement>().hasSpawnedSecondPlayer)
             {
-                GameObject.FindGameObjectWithTag("Player_2").GetComponent<PlayerStats>().Die();
+                
+                
+            }*/
+            for (int i = 2; i <= GetComponent<PlayerMovement>().MaxPlayerAtATime; i++)
+            {
+                var gb = GameObject.FindGameObjectWithTag("Player_" + i);
+                if(gb != null)
+                    gb.GetComponent<PlayerStats>().Die();
             }
-            GetComponent<PlayerMovement>().hasSpawnedSecondPlayer = false;
+            //GetComponent<PlayerMovement>().hasSpawnedSecondPlayer = false;
             /*if (lastCheckPoint != null)
             {*/
-                StartCoroutine(waitForDelayDeath2());
+            StartCoroutine(waitForDelayDeath2());
             /*}
             else
             {

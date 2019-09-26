@@ -10,7 +10,7 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.tag == "Player" || collision.tag == "Player_2") && !isTriggered)
+        if (collision.tag.StartsWith("Player") && !isTriggered)
         {
             isTriggered = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = transform.position;

@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Multiple_Step_Quest_Panel.cs" />
     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Abilities\CorruptedAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\DashAbility.cs" />
@@ -70,6 +69,7 @@
     <Compile Include="Assets\Scripts\Abilities\WallClimbAbility.cs" />
     <Compile Include="Assets\Scripts\AlphaNBTTag.cs" />
     <Compile Include="Assets\Scripts\BlockInvis.cs" />
+    <Compile Include="Assets\Scripts\CameraEX.cs" />
     <Compile Include="Assets\Scripts\CameraLocker_Lever.cs" />
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\CharacterController2D.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Quest\CollectableQuest.cs" />
+    <Compile Include="Assets\Scripts\Quest\Multiple_Step_Quest_Panel.cs" />
     <Compile Include="Assets\Scripts\Quest\MultipleStepQuest.cs" />
     <Compile Include="Assets\Scripts\Quest\NPC_Quest.cs" />
     <Compile Include="Assets\Scripts\Quest\Quest.cs" />

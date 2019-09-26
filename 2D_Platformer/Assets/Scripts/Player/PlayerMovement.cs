@@ -14,18 +14,24 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool crouch = false;
     [HideInInspector] public bool onWall = false;
     public GameObject wallDetector;
-    public bool isSecondPlayer;
-    public GameObject second_Player;
+    public bool isNotMain;
+    public GameObject otherPlayer;
+    Rigidbody2D rb;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         wallJumpCount = maxWallJumpCount;
     }
+
+    [HideInInspector]public int PlayerSpawnIndex = 2;
+    public int MaxPlayerAtATime = 4;
 
     // Update is called once per frame
     void Update()
     {
-        if (isSecondPlayer)
+        #region Old 2 Player 
+        /*if (isSecondPlayer)
         {
             var colliders = Physics2D.OverlapCircleAll(wallDetector.transform.position, .1f, controller.m_WhatIsGround);
             foreach (var item in colliders)
@@ -91,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 jump = true;
-                animator.SetBool("Jump", true);
             }
             if (Input.GetButtonDown("Crouch"))
             {
@@ -102,10 +107,60 @@ public class PlayerMovement : MonoBehaviour
                 crouch = false;
             }
             animator.SetBool("Crouch", crouch);
+        }*/
+
+        #endregion
+        if (Input.GetButtonDown("Player_Join") && !isNotMain && PlayerSpawnIndex < MaxPlayerAtATime)
+        {
+            Debug.Log("Spawn Player");
+            var playerTransform = Instantiate(otherPlayer, transform.position + new Vector3(0, 0.5f), Quaternion.identity).transform;
+            playerTransform.tag = "Player_" + PlayerSpawnIndex;
+            //playerTransform.gameObject.layer = LayerMask.NameToLayer("Player_" + PlayerSpawnIndex);
+            playerTransform.GetComponent<PlayerMovement>().isNotMain = true;
+            GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(playerTransform);
+            if(PlayerSpawnIndex-2 == 0)
+                GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(transform);
+            GameManager.instance.UpdatePlayer();
+            //hasSpawnedSecondPlayer = true;
+            PlayerSpawnIndex++;
         }
+
+        var colliders = Physics2D.OverlapCircleAll(wallDetector.transform.position, .1f, controller.m_WhatIsGround);
+        foreach (var item in colliders)
+        {
+            if (item.gameObject != gameObject)
+            {
+                onWall = true;
+            }
+        }
+
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        if (colliders.Length <= 0)
+        {
+            onWall = false;
+        }
+        horizontalMove = Input.GetAxisRaw("Horizontal" + (transform.tag != "Player"?"_" + transform.tag:"")) * runSpeed;
+        if (Input.GetAxisRaw("Horizontal" + (transform.tag != "Player" ? "_" + transform.tag : "")) <= 0.35 && Input.GetAxisRaw("Horizontal"+(transform.tag != "Player" ? "_" + transform.tag : "")) >= -0.35)
+        {
+            horizontalMove = 0;
+        }
+        if (Input.GetButtonDown("Jump" + (transform.tag != "Player" ? "_" + transform.tag : "")))
+        {
+            jump = true;
+            animator.SetBool("Jump", true);
+        }
+        if (Input.GetButtonDown("Crouch" + (transform.tag != "Player" ? "_" + transform.tag : "")))
+        {
+            crouch = true;
+        }
+        else if (Input.GetButtonUp("Crouch" + (transform.tag != "Player" ? "_" + transform.tag : "")))
+        {
+            crouch = false;
+        }
+        animator.SetBool("Crouch", crouch);
     }
 
-    [HideInInspector]public bool hasSpawnedSecondPlayer = false;
+    //[HideInInspector]public bool hasSpawnedSecondPlayer = false;
 
     bool isGravityChanged = false;
     bool usedWallJump = false;
@@ -127,8 +182,8 @@ public class PlayerMovement : MonoBehaviour
         if (onWall && jump && !controller.m_Grounded && wallJumpCount > 0)
         {
             controller.Flip();
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(transform.localScale.x * 75, controller.m_JumpForce * 1.25f));
-            GetComponent<Rigidbody2D>().velocity =  new Vector2(transform.localScale.x/transform.localScale.y * 10f, 15f);
+            //rb.AddForce(new Vector2(transform.localScale.x * 75, controller.m_JumpForce * 1.25f));
+            rb.velocity =  new Vector2(transform.localScale.x/transform.localScale.y * 10f, 15f);
             wallJumpCount--;
             controller.m_AirControl = false;
             coroutineWallJump = StartCoroutine(waitForWalljump());
@@ -138,8 +193,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (onWall && crouch && !isGravityChanged && !controller.m_Grounded && wallStuckTime <= 2)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
             isGravityChanged = true;
         }
         if(onWall && crouch && !controller.m_Grounded && wallStuckTime <= 2)
@@ -148,20 +203,26 @@ public class PlayerMovement : MonoBehaviour
         }
         if (((!onWall || !crouch || controller.m_Grounded) && isGravityChanged)||wallStuckTime > 2)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 3;
+            rb.gravityScale = 3;
             isGravityChanged = false;
         }
         if (controller.m_Grounded)
+        {
             wallStuckTime = 0;
-    
+        }
+
         controller.Move(horizontalMove * Time.deltaTime, crouch, jump);
-        jump = false;
+        if(jump)
+            animator.SetBool("Jump", true);
+        if (jump)
+            jump = false;
     }
 
     float wallStuckTime = 0;
 
     public void OnLanding()
     {
+        if(rb.velocity.y <= 0)
         animator.SetBool("Jump", false);
     }
 

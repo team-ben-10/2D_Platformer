@@ -60,12 +60,14 @@ public class GameManager : MonoBehaviour
         public string name;
     }
 
-    public void SetCurrentPlayer(CharacterSelection character, bool isSecond)
+    public void SetCurrentPlayer(CharacterSelection character, int index)
     {
         string path = Application.persistentDataPath + "/Character.dat";
         if (File.Exists(path))
         {
-            File.WriteAllLines(path, new string[] { !isSecond ? character.name : File.ReadAllLines(path)[0], isSecond ? character.name : File.ReadAllLines(path)[1]});
+            string[] lines = File.ReadAllLines(path);
+            lines[index] = character.name;
+            File.WriteAllLines(path, lines);
         }
     }
 
@@ -192,8 +194,10 @@ public class GameManager : MonoBehaviour
     public void ResetUnlocables()
     {
         string path = Application.persistentDataPath + "/Unlocables.dat";
-        SetCurrentPlayer(GetCharacter("Standard"), false);
-        SetCurrentPlayer(GetCharacter("Standard"), true);
+        for (int i = 0; i < 4; i++)
+        {
+            SetCurrentPlayer(GetCharacter("Standard"), i);
+        }
         File.Delete(path);
         foreach (var item in Directory.GetFiles(Application.persistentDataPath + "/Quests"))
         {
@@ -247,7 +251,8 @@ public class GameManager : MonoBehaviour
         string path = Application.persistentDataPath + "/Character.dat";
         if (File.Exists(path))
         {
-            for (int i = 1; i <= 2; i++)
+            var playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            for (int i = 1; i <= playerMov.MaxPlayerAtATime; i++)
             {
                 var lines = File.ReadAllLines(path);
                 foreach (var character in characters)
@@ -257,7 +262,7 @@ public class GameManager : MonoBehaviour
                         var player = GameObject.FindGameObjectWithTag("Player" + ((i != 1)?("_" + i):""));
                         if (player != null)
                         {
-                            player.GetComponent<PlayerStats>().lastCheckPoint = player.transform.position;
+                            
                             foreach (var item in player.GetComponents<Ability>())
                             {
                                 Destroy(item);
@@ -304,7 +309,13 @@ public class GameManager : MonoBehaviour
         else
         {
             File.Create(path).Close();
-            File.WriteAllLines(path, new string[] { "Standard", "Standard" });
+            List<string> strings = new List<string>();
+            var playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            for (int i = 0; i < playerMov.MaxPlayerAtATime; i++)
+            {
+                strings.Add("Standard");
+            }
+            File.WriteAllLines(path, strings.ToArray());
         }
 
     }

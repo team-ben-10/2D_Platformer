@@ -23,18 +23,19 @@ public class MushroomEffect : MonoBehaviour
     private bool isUsed;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.tag == "Player" || collision.tag == "Player_2") && !isUsed)
+        if ((collision.tag.StartsWith("Player")) && !isUsed)
         {
-            if(GameObject.FindGameObjectWithTag("Player_2") != null)
+            for (int i = 2; i <= collision.GetComponent<PlayerMovement>().MaxPlayerAtATime; i++)
             {
-                GameObject.FindGameObjectWithTag("Player_2").GetComponent<PlayerStats>().PickupItem(this);
-                collision.GetComponent<PlayerStats>().PickupItem(this);
+                var gb = GameObject.FindGameObjectWithTag("Player_" + i);
+                if (gb != null)
+                {
+                    gb.GetComponent<PlayerStats>().PickupItem(this);
+                }
             }
-            if (GameObject.FindGameObjectWithTag("Player") != null)
-            {
-                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().PickupItem(this);
-                collision.GetComponent<PlayerStats>().PickupItem(this);
-            }
+            collision.GetComponent<PlayerStats>().PickupItem(this);
+
+
             gameObject.SetActive(false);
             isUsed = true;
         }
