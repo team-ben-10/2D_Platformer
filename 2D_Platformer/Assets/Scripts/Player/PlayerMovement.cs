@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (controller.m_Grounded && animator.GetBool("Jump"))
+            animator.SetBool("Jump", false);
         #region Old 2 Player 
         /*if (isSecondPlayer)
         {
@@ -110,19 +112,24 @@ public class PlayerMovement : MonoBehaviour
         }*/
 
         #endregion
-        if (Input.GetButtonDown("Player_Join") && !isNotMain && PlayerSpawnIndex < MaxPlayerAtATime)
+        var preset = InputManager.instance.GetPreset(transform.tag);
+
+        if (transform.tag == "Player")
         {
-            Debug.Log("Spawn Player");
-            var playerTransform = Instantiate(otherPlayer, transform.position + new Vector3(0, 0.5f), Quaternion.identity).transform;
-            playerTransform.tag = "Player_" + PlayerSpawnIndex;
-            //playerTransform.gameObject.layer = LayerMask.NameToLayer("Player_" + PlayerSpawnIndex);
-            playerTransform.GetComponent<PlayerMovement>().isNotMain = true;
-            GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(playerTransform);
-            if(PlayerSpawnIndex-2 == 0)
-                GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(transform);
-            GameManager.instance.UpdatePlayer();
-            //hasSpawnedSecondPlayer = true;
-            PlayerSpawnIndex++;
+            if (InputManager.instance.GetButtonDown("Player_Join", preset) && !isNotMain && PlayerSpawnIndex < MaxPlayerAtATime)
+            {
+                Debug.Log("Spawn Player " + PlayerSpawnIndex);
+                var playerTransform = Instantiate(otherPlayer, transform.position + new Vector3(0, 0.5f), Quaternion.identity).transform;
+                playerTransform.tag = "Player_" + PlayerSpawnIndex;
+                //playerTransform.gameObject.layer = LayerMask.NameToLayer("Player_" + PlayerSpawnIndex);
+                playerTransform.GetComponent<PlayerMovement>().isNotMain = true;
+                GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(playerTransform);
+                if (PlayerSpawnIndex - 2 == 0)
+                    GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(transform);
+                GameManager.instance.UpdatePlayer();
+                //hasSpawnedSecondPlayer = true;
+                PlayerSpawnIndex++;
+            }
         }
 
         var colliders = Physics2D.OverlapCircleAll(wallDetector.transform.position, .1f, controller.m_WhatIsGround);
@@ -139,21 +146,21 @@ public class PlayerMovement : MonoBehaviour
         {
             onWall = false;
         }
-        horizontalMove = Input.GetAxisRaw("Horizontal" + (transform.tag != "Player"?"_" + transform.tag:"")) * runSpeed;
-        if (Input.GetAxisRaw("Horizontal" + (transform.tag != "Player" ? "_" + transform.tag : "")) <= 0.35 && Input.GetAxisRaw("Horizontal"+(transform.tag != "Player" ? "_" + transform.tag : "")) >= -0.35)
+        horizontalMove = InputManager.instance.GetAxisRaw("Horizontal", preset) * runSpeed;
+        if (horizontalMove <= 0.35 && horizontalMove >= -0.35)
         {
             horizontalMove = 0;
         }
-        if (Input.GetButtonDown("Jump" + (transform.tag != "Player" ? "_" + transform.tag : "")))
+        if (InputManager.instance.GetButtonDown("Jump",preset))
         {
             jump = true;
             animator.SetBool("Jump", true);
         }
-        if (Input.GetButtonDown("Crouch" + (transform.tag != "Player" ? "_" + transform.tag : "")))
+        if (InputManager.instance.GetButtonDown("Crouch",preset))
         {
             crouch = true;
         }
-        else if (Input.GetButtonUp("Crouch" + (transform.tag != "Player" ? "_" + transform.tag : "")))
+        else if (InputManager.instance.GetButtonUp("Crouch",preset))
         {
             crouch = false;
         }
@@ -212,7 +219,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         controller.Move(horizontalMove * Time.deltaTime, crouch, jump);
-        if(jump)
+        
+        if (jump)
             animator.SetBool("Jump", true);
         if (jump)
             jump = false;

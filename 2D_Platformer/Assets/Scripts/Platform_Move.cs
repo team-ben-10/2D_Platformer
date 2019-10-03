@@ -98,12 +98,7 @@ public class Platform_Move : MonoBehaviour
     {
         if (movePlayerWithPlatform)
         {
-            if (collision.transform.tag == "Player")
-            {
-                collision.transform.SetParent(transform);
-                isStarted = true;
-            }
-            if (collision.transform.tag == "Player_2")
+            if (collision.transform.tag.StartsWith("Player"))
             {
                 collision.transform.SetParent(transform);
                 isStarted = true;
@@ -115,11 +110,7 @@ public class Platform_Move : MonoBehaviour
     {
         if (movePlayerWithPlatform)
         {
-            if (collision.transform.tag == "Player")
-            {
-                collision.transform.SetParent(null);
-            }
-            if (collision.transform.tag == "Player_2")
+            if (collision.transform.tag.StartsWith("Player"))
             {
                 collision.transform.SetParent(null);
             }

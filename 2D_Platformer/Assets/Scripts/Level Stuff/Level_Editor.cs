@@ -9,9 +9,9 @@ public class Level_Editor : MonoBehaviour
 {
     public static Level_Editor instance;
     public Behaviour render;
-    
+
     private void OnDrawGizmosSelected()
-    { 
+    {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(Vector2.zero - offset, 0.1f);
     }
@@ -85,8 +85,8 @@ public class Level_Editor : MonoBehaviour
     public void LoadLevel()
     {
         //objs.ForEach((x) => Debug.Log(x.obj.name + " " + x.hasAlphaNBT));
-       /*if (GameObject.FindGameObjectWithTag("Player") != null)
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = Vector3.zero;*/
+        /*if (GameObject.FindGameObjectWithTag("Player") != null)
+             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().lastCheckPoint = Vector3.zero;*/
 
         entityObjects.Clear();
         OBJPos.Clear();
@@ -98,44 +98,30 @@ public class Level_Editor : MonoBehaviour
             }
         }
         loadedOBJS.Clear();
-        for (int x = 0; x < sprite.width; x++)
+        ColorObj lastObject = null;
+        for (int i = 0; i < sprite.width * sprite.height; i++)
         {
-            for (int y = 0; y < sprite.height; y++)
+            int x = i % sprite.width;
+            int y = i / sprite.width;
+            Color c = sprite.GetPixel(x, y);
+            if (c.a > 0)
             {
-                Color c = sprite.GetPixel(x, y);
-                if (c.a > 0)
+                if(lastObject != null)
                 {
-                    foreach (var item in objs)
+                    var item = lastObject;
+                    if (!item.hasAlphaNBT)
                     {
-                        if (!item.hasAlphaNBT)
+                        if (c.Equals(item.color))
                         {
-                            if (c.Equals(item.color))
+                            if (CreatorManager.instance != null)
                             {
-                                if (CreatorManager.instance != null)
+                                if (item.obj.name == "Player")
                                 {
-                                    if (item.obj.name == "Player")
-                                    {
-                                        GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
-                                        gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
-                                        gb.transform.SetParent(transform);
-                                        if (gb.GetComponent(render.GetType()) == null)
-                                            gb.AddComponent(render.GetType());
-                                    }
-                                    else
-                                    {
-                                        GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
-                                        if (item.isChild)
-                                        {
-                                            gb.transform.SetParent(transform);
-                                        }
-                                        if (item.isEntityObject)
-                                        {
-                                            OBJPos.Add(gb.transform.position, item);
-                                            entityObjects.Add(gb);
-                                        }
-                                        if (gb.GetComponent(render.GetType()) == null)
-                                            gb.AddComponent(render.GetType());
-                                    }
+                                    GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
+                                    gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
+                                    gb.transform.SetParent(transform);
+                                    if (gb.GetComponent(render.GetType()) == null)
+                                        gb.AddComponent(render.GetType());
                                 }
                                 else
                                 {
@@ -149,15 +135,11 @@ public class Level_Editor : MonoBehaviour
                                         OBJPos.Add(gb.transform.position, item);
                                         entityObjects.Add(gb);
                                     }
-                                    loadedOBJS.Add(gb);
-                                    if(gb.GetComponent(render.GetType()) == null)
+                                    if (gb.GetComponent(render.GetType()) == null)
                                         gb.AddComponent(render.GetType());
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (c.r == item.color.r && c.b == item.color.b && c.g == item.color.g)
+                            else
                             {
                                 GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
                                 if (item.isChild)
@@ -166,25 +148,120 @@ public class Level_Editor : MonoBehaviour
                                 }
                                 if (item.isEntityObject)
                                 {
-                                    ColorObj cO = new ColorObj(item.color, item.obj, item.isChild, item.isEntityObject, item.hasAlphaNBT, item.offset);
-                                    cO.color.a = c.a;
-                                    OBJPos.Add(gb.transform.position, cO);
+                                    OBJPos.Add(gb.transform.position, item);
                                     entityObjects.Add(gb);
                                 }
                                 loadedOBJS.Add(gb);
-                                gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
                                 if (gb.GetComponent(render.GetType()) == null)
                                     gb.AddComponent(render.GetType());
                             }
-
                         }
                     }
+                    else
+                    {
+                        if (c.r == item.color.r && c.b == item.color.b && c.g == item.color.g)
+                        {
+                            GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
+                            if (item.isChild)
+                            {
+                                gb.transform.SetParent(transform);
+                            }
+                            if (item.isEntityObject)
+                            {
+                                ColorObj cO = new ColorObj(item.color, item.obj, item.isChild, item.isEntityObject, item.hasAlphaNBT, item.offset);
+                                cO.color.a = c.a;
+                                OBJPos.Add(gb.transform.position, cO);
+                                entityObjects.Add(gb);
+                            }
+                            loadedOBJS.Add(gb);
+                            gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
+                            if (gb.GetComponent(render.GetType()) == null)
+                                gb.AddComponent(render.GetType());
+                        }
+
+                    }
+                }
+
+                foreach (var item in objs)
+                {
+                    if (!item.hasAlphaNBT)
+                    {
+                        if (c.Equals(item.color))
+                        {
+                            if (CreatorManager.instance != null)
+                            {
+                                if (item.obj.name == "Player")
+                                {
+                                    GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
+                                    gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
+                                    gb.transform.SetParent(transform);
+                                    if (gb.GetComponent(render.GetType()) == null)
+                                        gb.AddComponent(render.GetType());
+                                }
+                                else
+                                {
+                                    GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
+                                    if (item.isChild)
+                                    {
+                                        gb.transform.SetParent(transform);
+                                    }
+                                    if (item.isEntityObject)
+                                    {
+                                        OBJPos.Add(gb.transform.position, item);
+                                        entityObjects.Add(gb);
+                                    }
+                                    if (gb.GetComponent(render.GetType()) == null)
+                                        gb.AddComponent(render.GetType());
+                                }
+                            }
+                            else
+                            {
+                                GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
+                                if (item.isChild)
+                                {
+                                    gb.transform.SetParent(transform);
+                                }
+                                if (item.isEntityObject)
+                                {
+                                    OBJPos.Add(gb.transform.position, item);
+                                    entityObjects.Add(gb);
+                                }
+                                loadedOBJS.Add(gb);
+                                if (gb.GetComponent(render.GetType()) == null)
+                                    gb.AddComponent(render.GetType());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (c.r == item.color.r && c.b == item.color.b && c.g == item.color.g)
+                        {
+                            GameObject gb = Instantiate(item.obj, new Vector2(x * SpaceBetweenOBJS, y * SpaceBetweenOBJS) - offset + item.offset, Quaternion.identity);
+                            if (item.isChild)
+                            {
+                                gb.transform.SetParent(transform);
+                            }
+                            if (item.isEntityObject)
+                            {
+                                ColorObj cO = new ColorObj(item.color, item.obj, item.isChild, item.isEntityObject, item.hasAlphaNBT, item.offset);
+                                cO.color.a = c.a;
+                                OBJPos.Add(gb.transform.position, cO);
+                                entityObjects.Add(gb);
+                            }
+                            loadedOBJS.Add(gb);
+                            gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
+                            if (gb.GetComponent(render.GetType()) == null)
+                                gb.AddComponent(render.GetType());
+                        }
+
+                    }
+                    lastObject = item;
                 }
             }
         }
         StartCoroutine(waitForPlayerSkin());
     }
-    
+
     public IEnumerator waitForPlayerSkin()
     {
         yield return null;
@@ -238,7 +315,7 @@ public class Level_Editor : MonoBehaviour
             dic.Add(item.Key, item.Value);
             entityObjects.Add(gb);
             loadedOBJS.Add(gb);
-            if(item.Value.hasAlphaNBT)
+            if (item.Value.hasAlphaNBT)
                 gb.AddComponent<AlphaNBTTag>().setNBT((int)(item.Value.color.a * 255));
             if (gb.GetComponent(render.GetType()) == null)
                 gb.AddComponent(render.GetType());

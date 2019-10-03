@@ -29,10 +29,10 @@ public class Level_Selection_Prefab : MonoBehaviour
         if (startWithCutscene)
         {
             Level_Selector_GB.instance.isCutscene = true;
-            SceneManager.LoadScene(cutSceneName);
+            LoadManager.Instance.LoadScene(cutSceneName);
         }
         else
-            SceneManager.LoadScene("SampleScene");
+            LoadManager.Instance.LoadScene("SampleScene");
     }
 
     public void setDiamonds(int diamonds)

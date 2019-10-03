@@ -50,11 +50,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player" )
-        {
-            onTouch(collision.gameObject, collision);
-        }
-        if (collision.tag == "Player_2")
+        if(collision.tag.StartsWith("Player"))
         {
             onTouch(collision.gameObject, collision);
         }

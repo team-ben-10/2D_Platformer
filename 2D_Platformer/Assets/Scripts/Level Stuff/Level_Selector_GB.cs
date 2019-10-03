@@ -47,14 +47,14 @@ public class Level_Selector_GB : MonoBehaviour
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                SceneManager.LoadScene("SampleScene");
+                LoadManager.Instance.LoadScene("SampleScene");
             }
         }
         else
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                SceneManager.LoadScene("Start_Scene");
+                LoadManager.Instance.LoadScene("Start_Scene");
                 /*if (Client.instance != null && Client.client.TCPClient.Connected)
                     Client.client.WriteMessage("!disconnect!");*/
             }

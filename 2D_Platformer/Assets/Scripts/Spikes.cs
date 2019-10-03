@@ -6,11 +6,7 @@ public class Spikes : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
-        {
-            collision.GetComponent<PlayerStats>().Die();
-        }
-        if (collision.tag == "Player_2")
+        if(collision.tag.StartsWith ("Player"))
         {
             collision.GetComponent<PlayerStats>().Die();
         }

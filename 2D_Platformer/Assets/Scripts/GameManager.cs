@@ -389,7 +389,7 @@ public class GameManager : MonoBehaviour
             return;
         if (Input.GetButtonDown("Cancel") && useCancelToExit)
         {
-            SceneManager.LoadScene("Level_Selection");
+            LoadManager.Instance.LoadScene("Level_Selection");
         }
         if (currentTime != -1)
         {
@@ -537,7 +537,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             Debug.Log("Won The Game");
-            SceneManager.LoadScene(lastScene);
+            LoadManager.Instance.LoadScene(lastScene);
         }
         else
         {
@@ -555,7 +555,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(name);
+            LoadManager.Instance.LoadScene(name);
         }
     }
 

@@ -119,7 +119,7 @@ public class Level_Selector : MonoBehaviour
                 string path = Application.persistentDataPath + "/" + item.textFile.name + ".txt";
                 if (File.Exists(path))
                     File.Delete(path);
-                SceneManager.LoadScene(0);
+                LoadManager.Instance.LoadScene("Start_Scene");
             }
         }
     }

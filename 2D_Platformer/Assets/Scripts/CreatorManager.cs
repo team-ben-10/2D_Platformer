@@ -153,7 +153,7 @@ public class CreatorManager : MonoBehaviour
             if (Input.GetButtonDown("Cancel"))
             {
                 Time.timeScale = 1;
-                SceneManager.LoadScene("Start_Scene");
+                LoadManager.Instance.LoadScene("Start_Scene");
             }
         }
     }
