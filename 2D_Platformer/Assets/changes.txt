@@ -1,0 +1,19 @@
+Settings Button on Main Menu
+hide cursor while playing
+gesneakt bleiben wenn man unter einem block steht und sneak taste loslässt
+pls collision bugs fixen thx
+wenn man ingame esc drückt soll n menü kommen
+level decoration bsp gras
+man wird langsamer auf plattformen die sich bewegen
+spiel pausieren wenn man in ein anderes fenster drückt und das game unfocused is
+versionstext anzeigen damit man weiß ob man die neueste und welche version man hat
+hintergrund hört manchmal auf zu rendern
+micro jumps wenn man im selben frame jump taste drückt wenn man aufkommt
+bei checkpoints kann man doublejumpen und in der luft über dem cp bleiben wenn man jump taste spamt xd
+wenn man gegen eine ecke springt ist man manchmal stuck und man muss in die gegengesetzte richtung drücken
+wenn man auf eis springt funktioniert die velocity nicht richtig
+spikes sind 1 pixel über dem block nicht drauf
+ice effect wird manchmal nicht applied
+farbe der zeit ändern je nachdem welche farbe der hintergrund hat zb zeit weiß machen damit man sie in höhlen lvl besser sieht
+enemy nimmt dich als boden xd
+dritter player kann nicht sterben
