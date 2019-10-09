@@ -13,9 +13,9 @@ public class InputManager : MonoBehaviour
     public class KeyPair
     {
         public string name;
-        public string key;
+        public KeyCode key;
         
-        public KeyPair(string name, string key)
+        public KeyPair(string name, KeyCode key)
         {
             this.name = name;
             this.key = key;
@@ -28,14 +28,18 @@ public class InputManager : MonoBehaviour
     public class Axis
     {
         public string name;
-        public string negKey;
-        public string posKey;
+        public KeyCode negKey;
+        public KeyCode posKey;
+        public bool isController;
+        public string ControllerAxis;
 
-        public Axis(string name,string negKey, string posKey)
+        public Axis(string name, KeyCode negKey, KeyCode posKey, bool isController, string ControllerAxis)
         {
             this.negKey = negKey;
             this.posKey = posKey;
             this.name = name;
+            this.isController = isController;
+            this.ControllerAxis = ControllerAxis;
         }
     }
 
@@ -58,6 +62,7 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        //Debug.Log(string.Join(", ", Input.GetJoystickNames()));
         DontDestroyOnLoad(gameObject);
         if (instance != null)
             Destroy(instance.gameObject);
@@ -66,30 +71,37 @@ public class InputManager : MonoBehaviour
 
     public bool GetButtonDown(string name, KeyPreset preset)
     {
-        return Input.GetKeyDown((preset.joystickName != "" ? preset.joystickName + " " : "") + preset.Find(name).key);
+        return Input.GetKeyDown(preset.Find(name).key);
     }
 
     public bool GetButton(string name, KeyPreset preset)
     {
-        return Input.GetKey((preset.joystickName != "" ? preset.joystickName + " " : "") + preset.Find(name).key);
+        return Input.GetKey(preset.Find(name).key);
     }
 
     public bool GetButtonUp(string name, KeyPreset preset)
     {
-        return Input.GetKeyUp((preset.joystickName != "" ? preset.joystickName + " " : "") + preset.Find(name).key);
+        return Input.GetKeyUp(preset.Find(name).key);
     }
 
     public int GetAxisRaw(string name, KeyPreset preset)
     {
-        if (Input.GetKey((preset.joystickName != "" ? preset.joystickName + " " : "") + preset.FindAxis(name).posKey))
+        if (preset.FindAxis(name).isController)
         {
-            return 1;
+            return (int)Input.GetAxisRaw(preset.FindAxis(name).ControllerAxis);
         }
-        if (Input.GetKey((preset.joystickName != "" ? preset.joystickName + " " : "") + preset.FindAxis(name).negKey))
+        else
         {
-            return -1;
+            if (Input.GetKey(preset.FindAxis(name).posKey))
+            {
+                return 1;
+            }
+            if (Input.GetKey(preset.FindAxis(name).negKey))
+            {
+                return -1;
+            }
+            return 0;
         }
-        return 0;
     }
 
     public KeyPreset GetPreset(string name)

@@ -2098,8 +2098,8 @@ MonoBehaviour:
   m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
+  m_HorizontalAxis: UIHorizontal
+  m_VerticalAxis: UIVertical
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
@@ -2779,6 +2779,11 @@ PrefabInstance:
       propertyPath: m_ChildControlWidth
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1563001647681934199, guid: 0e1e1477c6ae72749947136db706e7c2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e1e1477c6ae72749947136db706e7c2, type: 3}
 --- !u!224 &1458593661 stripped
@@ -3295,7 +3300,6 @@ MonoBehaviour:
   pathInput: {fileID: 1812880985}
   searchInput: {fileID: 1028907682}
   uploadButton: {fileID: 824074501}
-  errorText: {fileID: 2147389695}
   prefabLevel: {fileID: 6767744715054293233, guid: d6517cb8ed50d394db31d5bd312ade26,
     type: 3}
   content: {fileID: 98360747}

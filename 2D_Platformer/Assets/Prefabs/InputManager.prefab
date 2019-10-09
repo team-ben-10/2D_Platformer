@@ -48,38 +48,44 @@ MonoBehaviour:
     joystickName: 
     keyPairs:
     - name: Jump
-      key: space
+      key: 32
     - name: Crouch
-      key: left ctrl
+      key: 306
     - name: Submit
-      key: enter
+      key: 13
     - name: Cancel
-      key: escape
+      key: 27
     - name: Player_Join
-      key: o
+      key: 331
     axes:
     - name: Horizontal
-      negKey: a
-      posKey: d
+      negKey: 97
+      posKey: 100
+      isController: 0
+      ControllerAxis: 
   - name: Player_2
     joystickName: 
     keyPairs:
     - name: Jump
-      key: up
+      key: 330
     - name: Crouch
-      key: down
+      key: 336
     axes:
     - name: Horizontal
-      negKey: left
-      posKey: right
+      negKey: 0
+      posKey: 0
+      isController: 1
+      ControllerAxis: joystick 0 axis 0
   - name: Player_3
     joystickName: 
     keyPairs:
     - name: Jump
-      key: u
+      key: 0
     - name: Crouch
-      key: j
+      key: 0
     axes:
     - name: Horizontal
-      negKey: h
-      posKey: k
+      negKey: 0
+      posKey: 0
+      isController: 0
+      ControllerAxis: 

@@ -59,7 +59,7 @@ public class Level_Editor : MonoBehaviour
         //    List<string> txt = new List<string>();
         //    foreach (var item in objs)
         //    {
-        //        txt.Add(item.obj.name + ": (R=" + item.color.r*255f + ",G=" + item.color.g*255f + ",B=" + item.color.b*255f + (item.hasAlphaNBT?"":",A=" + item.color.a*255f) + ")\n");
+        //        txt.Add(item.obj.name + ": (R=" + item.color.r * 255f + ",G=" + item.color.g * 255f + ",B=" + item.color.b * 255f + (item.hasAlphaNBT ? "" : ",A=" + item.color.a * 255f) + ")\n");
         //    }
         //    File.WriteAllLines(path, txt);
         //}
