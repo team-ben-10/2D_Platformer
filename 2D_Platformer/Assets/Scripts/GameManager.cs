@@ -60,12 +60,34 @@ public class GameManager : MonoBehaviour
         public string name;
     }
 
-    public void SetCurrentPlayer(CharacterSelection character, bool isSecond)
+    public void SetCurrentPlayer(CharacterSelection character, int index)
     {
         string path = Application.persistentDataPath + "/Character.dat";
         if (File.Exists(path))
         {
-            File.WriteAllLines(path, new string[] { !isSecond ? character.name : File.ReadAllLines(path)[0], isSecond ? character.name : File.ReadAllLines(path)[1]});
+            string[] lines = File.ReadAllLines(path);
+            lines[index] = character.name;
+            File.WriteAllLines(path, lines);
+        }
+    }
+
+    public void AddQuest(Quest name)
+    {
+        foreach (var item in instance.allQuests)
+        {
+            if (item.name == name.name)
+            {
+                Debug.Log("Quest found!");
+                if (!instance.currentQuests.Contains(item))
+                {
+                    Debug.Log(name + " added");
+                    string path = Application.persistentDataPath + "/Quests/" + item.name + ".quest";
+                    instance.currentQuests.Add(item);
+                    File.Create(path).Close();
+                    File.WriteAllLines(path, item.GetSaveString());
+                    return;
+                }
+            }
         }
     }
 
@@ -82,9 +104,8 @@ public class GameManager : MonoBehaviour
                     string path = Application.persistentDataPath + "/Quests/" + item.name + ".quest";
                     instance.currentQuests.Add(item);
                     File.Create(path).Close();
-                    File.WriteAllLines(path, new string[] { "unlocables:" + item.AmountForUnlocable, "completed:" + item.isCompleted });
+                    File.WriteAllLines(path, item.GetSaveString());
                     return;
-
                 }
             }
         }
@@ -153,17 +174,18 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void CheckQuests(string name, int amount = 1)
+    public void CheckQuests(string name)
     {
+        Debug.Log("Checking Quest");
         for (int i = 0; i < currentQuests.Count; i++)
         {
             var item = currentQuests[i];
             if (item.name == name)
             {
-                if (!item.CheckForFinishedAdd(amount))
+                if (!item.Check())
                 {
                     string path = Application.persistentDataPath + "/Quests/" + item.name + ".quest";
-                    File.WriteAllLines(path, new string[] { "unlocables:" + item.AmountForUnlocable, "completed:" + item.isCompleted });
+                    File.WriteAllLines(path, item.GetSaveString());
                 }
             }
         }
@@ -172,8 +194,10 @@ public class GameManager : MonoBehaviour
     public void ResetUnlocables()
     {
         string path = Application.persistentDataPath + "/Unlocables.dat";
-        SetCurrentPlayer(GetCharacter("Standard"), false);
-        SetCurrentPlayer(GetCharacter("Standard"), true);
+        for (int i = 0; i < 4; i++)
+        {
+            SetCurrentPlayer(GetCharacter("Standard"), i);
+        }
         File.Delete(path);
         foreach (var item in Directory.GetFiles(Application.persistentDataPath + "/Quests"))
         {
@@ -223,38 +247,42 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayer()
     {
-
         Debug.Log("Load Player!");
         string path = Application.persistentDataPath + "/Character.dat";
         if (File.Exists(path))
         {
-            var lines = File.ReadAllLines(path);
-            foreach (var character in characters)
+            var playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            for (int i = 1; i <= playerMov.MaxPlayerAtATime; i++)
             {
-                if (character.name == lines[0])
+                var lines = File.ReadAllLines(path);
+                foreach (var character in characters)
                 {
-                    var player = GameObject.FindGameObjectWithTag("Player");
-                    foreach (var item in player.GetComponents<Ability>())
+                    if (character.name == lines[i-1])
                     {
-                        Destroy(item);
-                    }
-                    player.GetComponent<Animator>().runtimeAnimatorController = character.controller;
-                    foreach (var behaviour in character.addBehaviours)
-                    {
-                        if (behaviour is Ability)
+                        var player = GameObject.FindGameObjectWithTag("Player" + ((i != 1)?("_" + i):""));
+                        if (player != null)
                         {
-                            Ability a = (Ability)player.AddComponent(behaviour.GetType());
-                            a.sprite = character.activationSprite;
-                            a.objsToSpawn = character.objsToSpawn;
+                            
+                            foreach (var item in player.GetComponents<Ability>())
+                            {
+                                Destroy(item);
+                            }
+                            player.GetComponent<Animator>().runtimeAnimatorController = character.controller;
+                            foreach (var behaviour in character.addBehaviours)
+                            {
+                                if (behaviour is Ability)
+                                {
+                                    Ability a = (Ability)player.AddComponent(behaviour.GetType());
+                                    a.sprite = character.activationSprite;
+                                    a.objsToSpawn = character.objsToSpawn;
+                                }
+                            }
+                            break;
                         }
                     }
-                    
-                    break;
                 }
             }
-            if (GameObject.FindGameObjectWithTag("Player_2"))
-            {
-                foreach (var character in characters)
+                /*foreach (var character in characters)
                 {
                     if (character.name == lines[1])
                     {
@@ -276,14 +304,20 @@ public class GameManager : MonoBehaviour
 
                         break;
                     }
-                }
-            }
+                }*/
         }
         else
         {
             File.Create(path).Close();
-            File.WriteAllLines(path, new string[] { "Standard", "Standard" });
+            List<string> strings = new List<string>();
+            var playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            for (int i = 0; i < playerMov.MaxPlayerAtATime; i++)
+            {
+                strings.Add("Standard");
+            }
+            File.WriteAllLines(path, strings.ToArray());
         }
+
     }
 
 
@@ -308,9 +342,10 @@ public class GameManager : MonoBehaviour
                 {
                     if (quest.name == part)
                     {
-                        Quest q = quest;
-                        q.AmountForUnlocable = int.Parse(File.ReadAllLines(item)[0].Replace("unlocables:", ""));
-                        q.isCompleted = bool.Parse(File.ReadAllLines(item)[1].Replace("completed:", ""));
+                        Quest q = quest.Copy();
+                        q.Setup(File.ReadAllLines(item));
+                        /*q.AmountForUnlocable = int.Parse(File.ReadAllLines(item)[0].Replace("unlocables:", ""));
+                        q.isCompleted = bool.Parse(File.ReadAllLines(item)[1].Replace("completed:", ""));*/
                         currentQuests.Add(q);
                         Debug.Log(quest.name + " added");
                     }
@@ -319,7 +354,7 @@ public class GameManager : MonoBehaviour
         }
         instance = this;
         currentTime = time;
-        Application.targetFrameRate = 60;
+        /*Application.targetFrameRate = 60;*/
         SetupUnlocables();
         for (int i = 0; i < currentQuests.Count; i++)
         {
@@ -333,21 +368,28 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameObject.FindGameObjectWithTag("Player") != null)
+        //TESTING
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            textPlayer1.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
+            GameManager.instance.CheckQuests("Test Multiple Step Quest");
+        }
+        /*if(GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            if(textPlayer1 != null)
+                textPlayer1.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
         }
         if(GameObject.FindGameObjectWithTag("Player_2") != null)
         {
-            textPlayer2.transform.position = GameObject.FindGameObjectWithTag("Player_2").transform.position + Vector3.up;
-        }
+            if (textPlayer2 != null)
+                textPlayer2.transform.position = GameObject.FindGameObjectWithTag("Player_2").transform.position + Vector3.up;
+        }*/
         TestForHiddenCombination();
 
         if (onlyUnlocables)
             return;
         if (Input.GetButtonDown("Cancel") && useCancelToExit)
         {
-            SceneManager.LoadScene("Level_Selection");
+            LoadManager.Instance.LoadScene("Level_Selection");
         }
         if (currentTime != -1)
         {
@@ -401,6 +443,9 @@ public class GameManager : MonoBehaviour
         }
         levelLoader.sprite = texture;
         levelLoader.LoadLevel();
+        var player = GameObject.FindGameObjectWithTag("Player");
+        GameObject gb = new GameObject("Player_Spawn");
+        gb.transform.position = player.transform.position;
         UpdatePlayer();
         if (textfile != null)
         {
@@ -492,7 +537,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             Debug.Log("Won The Game");
-            SceneManager.LoadScene(lastScene);
+            LoadManager.Instance.LoadScene(lastScene);
         }
         else
         {
@@ -510,7 +555,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(name);
+            LoadManager.Instance.LoadScene(name);
         }
     }
 

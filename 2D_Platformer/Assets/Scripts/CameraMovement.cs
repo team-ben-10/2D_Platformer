@@ -30,7 +30,6 @@ public class CameraMovement : MonoBehaviour
                 bounds.Encapsulate(item.position);
             }
             Camera.main.orthographicSize = Mathf.Lerp(8, 15, Vector2.Distance(targets[0].transform.position, targets[1].transform.position) / 15f);
-            Debug.Log(bounds.size.x);
             Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, new Vector3(bounds.center.x, bounds.center.y,Mathf.Clamp(bounds.center.z, -50,-10)), 0.5f);
         }
         else

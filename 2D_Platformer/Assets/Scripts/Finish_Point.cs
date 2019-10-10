@@ -20,21 +20,24 @@ public class Finish_Point : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.tag == "Player" || collision.tag == "Player_2") && !isTriggered)
+        if (collision.tag.StartsWith("Player") && !isTriggered)
         {
-            int nbt = GetComponent<AlphaNBTTag>().NBT;
-            StringQuest q = questOnComplete.Find((x) => x.alpha == nbt);
-            if(q != null)
-                if (GameManager.instance.time >= q.timeToComplete)
-                {
-                    if (!q.completed)
-                        GameManager.instance.AddQuest(q.quest);
-                    else
+            if (GetComponent<AlphaNBTTag>() != null)
+            {
+                int nbt = GetComponent<AlphaNBTTag>().NBT;
+                StringQuest q = questOnComplete.Find((x) => x.alpha == nbt);
+                if (q != null)
+                    if (GameManager.instance.time >= q.timeToComplete)
                     {
-                        GameManager.instance.currentQuests.Find((x) => x.name == q.quest).CompleteQuestStep();
-                        GameManager.instance.currentQuests.Find((x) => x.name == q.quest).isFinished();
+                        if (!q.completed)
+                            GameManager.instance.AddQuest(q.quest);
+                        else
+                        {
+                            GameManager.instance.currentQuests.Find((x) => x.name == q.quest).CompleteQuestStep();
+                            GameManager.instance.currentQuests.Find((x) => x.name == q.quest).isFinished();
+                        }
                     }
-                }  
+            }
             isTriggered = true;
             GameManager.instance.Win();
         }

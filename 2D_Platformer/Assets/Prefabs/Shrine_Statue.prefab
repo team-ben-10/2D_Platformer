@@ -169,6 +169,11 @@ MonoBehaviour:
   questValues:
   - name: Enhanced Heart of Darkness
     value: 10
+    events:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!1 &5895609911161000441
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +279,7 @@ Transform:
   m_GameObject: {fileID: 5895609911606963256}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.082333334, z: 0}
-  m_LocalScale: {x: 1.3500001, y: 1, z: 1}
+  m_LocalScale: {x: 0.225, y: 0.16666667, z: 1}
   m_Children: []
   m_Father: {fileID: 5895609911033085444}
   m_RootOrder: 1

@@ -27,7 +27,7 @@ public class Shrine : MonoBehaviour
                     if (GameManager.instance.currentQuests.Exists((x) => x.name == item.name))
                     {
                         if(item.value != 0)
-                            GameManager.instance.CheckQuests(item.name, item.value);
+                            GameManager.instance.CheckQuests(item.name/*,item.value*/);
                         item.events.Invoke();
                         Debug.Log("Added Value to " + item.name);
                     }

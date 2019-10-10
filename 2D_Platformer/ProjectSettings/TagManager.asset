@@ -15,6 +15,8 @@ TagManager:
   - QuestInfo
   - PlayerNameTag
   - Player2NameTag
+  - Player_3
+  - Player_4
   layers:
   - Default
   - TransparentFX

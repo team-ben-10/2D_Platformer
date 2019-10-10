@@ -26,7 +26,8 @@ public class Wardrobe : MonoBehaviour
         {
             if (unloced)
             {
-                GameManager.instance.SetCurrentPlayer(GameManager.instance.GetCharacter(dic[GetComponent<AlphaNBTTag>().NBT]), (collision.tag == "Player_2"));
+                int index = collision.tag == "Player" ? 0 : (int.Parse(collision.tag.Replace("Player_", ""))-1);
+                GameManager.instance.SetCurrentPlayer(GameManager.instance.GetCharacter(dic[GetComponent<AlphaNBTTag>().NBT]),index);
                 GameManager.instance.UpdatePlayer();
             }
         }

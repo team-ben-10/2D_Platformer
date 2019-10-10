@@ -12,7 +12,7 @@ public class WardPortal : MonoBehaviour
         {
             if (Input.GetKeyDown(key))
             {
-                SceneManager.LoadScene("Wardrobe");
+                LoadManager.Instance.LoadScene("Wardrobe");
             }
         }
     }

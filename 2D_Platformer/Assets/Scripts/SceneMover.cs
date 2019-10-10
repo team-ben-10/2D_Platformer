@@ -9,7 +9,7 @@ public class SceneMover : MonoBehaviour
     {
         /*if (Client.instance != null && Client.client.TCPClient.Connected)
             Client.client.WriteMessage("!disconnect!");*/
-        SceneManager.LoadScene(scene);
+        LoadManager.Instance.LoadScene(scene);
     }
 
     public string unlocableName;

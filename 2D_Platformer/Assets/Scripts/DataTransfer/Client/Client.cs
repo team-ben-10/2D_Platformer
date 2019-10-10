@@ -61,15 +61,37 @@ class Client : MonoBehaviour
             File.WriteAllBytes(path, );
         }*/
         
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture("http://localhost:25565/Maps/" + name + ".png",false);
-        yield return www.SendWebRequest();
-        var text = ((DownloadHandlerTexture)www.downloadHandler).texture;
-        text.name = name;
+        var buffer = client.DownloadData("http://localhost:25565/Maps/" + name + ".png");
+
+        yield return null;
+
+        /*List<int> alphas = new List<int>();
+        string[] splits = alphaText.Split(' ');
+        foreach (var item in splits)
+        {
+            if(item.Trim() != "")
+                alphas.Add(int.Parse(item));
+        }*/
+        Texture2D sampleText = new Texture2D(300, 150, TextureFormat.RGBA32, false, false);
+        sampleText.filterMode = FilterMode.Point;
+        sampleText.LoadImage(buffer);
+
+        /*for (int y = 0; y < text.height; y++)
+        {
+            for (int x  = 0; x < text.width; x++)
+            {
+                Color c = text.GetPixel(x,y);
+                c.a = alphas[(text.height-1-y) * text.width + (x)];
+                sampleText.SetPixel(x, y, c);
+            }
+        }
+        sampleText.Apply();*/
         GameObject gb = Instantiate(prefabLevel, content);
         var lsp = gb.GetComponent<Level_Selection_Prefab>();
-        lsp.GetComponent<Image>().sprite = Sprite.Create(text,new Rect(0,0,300,150),new Vector2(0,0));
+        lsp.GetComponent<Image>().sprite = Sprite.Create(sampleText,new Rect(0,0,sampleText.width, sampleText.height),new Vector2(0,0));
         lsp.isEnabled = true;
-        lsp.texture = lsp.GetComponent<Image>().sprite.texture;
+        lsp.texture = new Texture2D(sampleText.width, sampleText.height, TextureFormat.RGBA32, false, false);
+        Graphics.CopyTexture(sampleText, lsp.texture);
         lsp.background = back;
         lsp.startWithCutscene = false;
         lsp.setDiamonds(3);

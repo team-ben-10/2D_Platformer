@@ -113,7 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2d3284ccf394a40aa3896a072eaca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Alien
 --- !u!61 &4931094198353839631
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -138,5 +137,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 0.28}
+  m_Size: {x: 0.5, y: 0.3}
   m_EdgeRadius: 0
