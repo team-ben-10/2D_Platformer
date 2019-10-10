@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LoadManager.cs" />
     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Abilities\CorruptedAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\DashAbility.cs" />
@@ -104,6 +103,7 @@
     <Compile Include="Assets\Scripts\Level Stuff\LevelInteracte.cs" />
     <Compile Include="Assets\Scripts\Lever.cs" />
     <Compile Include="Assets\Scripts\Lever_Dungeon_1_Final.cs" />
+    <Compile Include="Assets\Scripts\LoadManager.cs" />
     <Compile Include="Assets\Scripts\Mushroom\Ghost_MushroomEffect.cs" />
     <Compile Include="Assets\Scripts\Mushroom\Levelup_MushroomEffect.cs" />
     <Compile Include="Assets\Scripts\Mushroom\Mini_MushroomEffect.cs" />
@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\Player\Player_Spawner.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
+    <Compile Include="Assets\Scripts\PlayerGroundCheck.cs" />
     <Compile Include="Assets\Scripts\Quest\CollectableQuest.cs" />
     <Compile Include="Assets\Scripts\Quest\Multiple_Step_Quest_Panel.cs" />
     <Compile Include="Assets\Scripts\Quest\MultipleStepQuest.cs" />
