@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<Unlocable> unlocables;
     public List<Quest> allQuests;
-    public List<Quest> currentQuests;
+    [HideInInspector]public List<Quest> currentQuests;
 
     [System.Serializable]
     public class CharacterSelection

@@ -100,7 +100,7 @@ MonoBehaviour:
     objsToSpawn:
     - {fileID: 1048239402356190752, guid: 5768cb5ae8b31b043a6604ee1b6e6147, type: 3}
   - name: Ninja
-    controller: {fileID: 9100000, guid: 611535933f1c7f046b28342ed2fc0daf, type: 2}
+    controller: {fileID: 9100000, guid: c78e23add462ac14996d762199f7a8d5, type: 2}
     addBehaviours:
     - {fileID: 1215388527}
     - {fileID: 1418762640001355792}
@@ -113,6 +113,7 @@ MonoBehaviour:
   - name: Stone_Skin
   - name: Knight_Skin
   - name: Corrupted_Skin
+  - name: Ninja_Skin
   allQuests:
   - {fileID: 11400000, guid: 1b1bc8f99901eb6468b5cf1b272f319e, type: 2}
   - {fileID: 11400000, guid: dff70321744764241baf612b7aa2ae3e, type: 2}

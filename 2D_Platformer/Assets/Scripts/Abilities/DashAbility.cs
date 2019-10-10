@@ -15,7 +15,7 @@ public class DashAbility : Ability
 
     private void Update()
     {
-        if (!controller.m_Grounded && Input.GetButtonDown("Jump" + (transform.tag == "Player" ? "" : ("_" + transform.tag))) && !GetComponent<PlayerMovement>().onWall)
+        if (!controller.m_Grounded && InputManager.instance.GetButtonDown("Jump", InputManager.instance.GetPreset(transform.tag)) && !GetComponent<PlayerMovement>().onWall)
         {
             if (canUse)
             {

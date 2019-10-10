@@ -13,6 +13,7 @@ public class Wardrobe : MonoBehaviour
         dic.Add(245, "Stone");
         dic.Add(240, "Corrupted");
         dic.Add(235, "Knight");
+        dic.Add(230, "Ninja");
         unloced = dic[GetComponent<AlphaNBTTag>().NBT] == "Standard" ? true : GameManager.instance.IsUnloced(dic[GetComponent<AlphaNBTTag>().NBT]);
         if (unloced)
         {
