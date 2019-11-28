@@ -10,6 +10,7 @@ public class Level_Selection_Prefab : MonoBehaviour
     public TextAsset file;
     public Texture2D texture;
     public Sprite background;
+    public string clipName;
     public string cutSceneName;
     public bool startWithCutscene;
     public bool isEnabled;
@@ -26,6 +27,7 @@ public class Level_Selection_Prefab : MonoBehaviour
         Level_Selector_GB.instance.texture = texture;
         Level_Selector_GB.instance.textFile = file;
         Level_Selector_GB.instance.background = background;
+        Level_Selector_GB.instance.clipName = clipName;
         if (startWithCutscene)
         {
             Level_Selector_GB.instance.isCutscene = true;

@@ -16,6 +16,7 @@ public class Level_Selector_GB : MonoBehaviour
     }
 
     public string lastScene;
+    public string clipName;
 
     [HideInInspector]
     public bool isCutscene;
@@ -30,14 +31,19 @@ public class Level_Selector_GB : MonoBehaviour
                 GameManager gameManager = manager.GetComponent<GameManager>();
                 if (texture != null && background != null)
                 {
-                    gameManager.LoadMap(texture, textFile, background, lastScene);
+                    gameManager.LoadMap(texture, textFile, background, lastScene,clipName);
                 }
+                Cursor.lockState = CursorLockMode.Locked;
                 Destroy(gameObject);
             }
         }
         if(level == SceneManager.GetSceneByName("Level_Creator").buildIndex)
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

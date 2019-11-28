@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Abilities\UfoAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\WallClimbAbility.cs" />
     <Compile Include="Assets\Scripts\AlphaNBTTag.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\BlockInvis.cs" />
     <Compile Include="Assets\Scripts\CameraEX.cs" />
     <Compile Include="Assets\Scripts\CameraLocker_Lever.cs" />

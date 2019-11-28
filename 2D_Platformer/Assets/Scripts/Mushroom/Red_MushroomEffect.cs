@@ -14,7 +14,8 @@ public class Red_MushroomEffect : MushroomEffect
     {
         if(!player.GetComponent<PlayerMovement>().controller.m_Grounded)
         {
-            if (Input.GetButton("Jump"))
+            var preset = InputManager.instance.GetPreset(player.transform.tag);
+            if (InputManager.instance.GetButton("Jump",preset))
             {
                 player.GetComponent<Rigidbody2D>().gravityScale = standardScale / 5;
             }
