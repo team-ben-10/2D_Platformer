@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public bool isNotNormalLevel;
     public bool useCancelToExit = true;
     public bool onlyUnlocables;
-    
+
 
     public GameObject textPlayer1;
     public GameObject textPlayer2;
@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<Unlocable> unlocables;
     public List<Quest> allQuests;
-    [HideInInspector]public List<Quest> currentQuests;
+    [HideInInspector] public List<Quest> currentQuests;
+    [SerializeField] List<AudioClip> clips;
 
     [System.Serializable]
     public class CharacterSelection
@@ -52,6 +53,18 @@ public class GameManager : MonoBehaviour
         [Header("Sprite Controlled")]
         public Sprite activationSprite;
         public List<GameObject> objsToSpawn;
+    }
+
+    [System.Serializable]
+    public class AudioClip
+    {
+        public string name;
+        public UnityEngine.AudioClip clip;
+    }
+
+    public UnityEngine.AudioClip GetClip(string name)
+    {
+        return clips.Find(x => x.name == name)?.clip;
     }
 
     [System.Serializable]
@@ -257,12 +270,12 @@ public class GameManager : MonoBehaviour
                 var lines = File.ReadAllLines(path);
                 foreach (var character in characters)
                 {
-                    if (character.name == lines[i-1])
+                    if (character.name == lines[i - 1])
                     {
-                        var player = GameObject.FindGameObjectWithTag("Player" + ((i != 1)?("_" + i):""));
+                        var player = GameObject.FindGameObjectWithTag("Player" + ((i != 1) ? ("_" + i) : ""));
                         if (player != null)
                         {
-                            
+
                             foreach (var item in player.GetComponents<Ability>())
                             {
                                 Destroy(item);
@@ -282,29 +295,29 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-                /*foreach (var character in characters)
+            /*foreach (var character in characters)
+            {
+                if (character.name == lines[1])
                 {
-                    if (character.name == lines[1])
+                    var player = GameObject.FindGameObjectWithTag("Player_2");
+                    foreach (var item in player.GetComponents<Ability>())
                     {
-                        var player = GameObject.FindGameObjectWithTag("Player_2");
-                        foreach (var item in player.GetComponents<Ability>())
-                        {
-                            Destroy(item);
-                        }
-                        player.GetComponent<Animator>().runtimeAnimatorController = character.controller;
-                        foreach (var behaviour in character.addBehaviours)
-                        {
-                            if (behaviour is Ability)
-                            {
-                                Ability a = (Ability)player.AddComponent(behaviour.GetType());
-                                a.sprite = character.activationSprite;
-                                a.objsToSpawn = character.objsToSpawn;
-                            }
-                        }
-
-                        break;
+                        Destroy(item);
                     }
-                }*/
+                    player.GetComponent<Animator>().runtimeAnimatorController = character.controller;
+                    foreach (var behaviour in character.addBehaviours)
+                    {
+                        if (behaviour is Ability)
+                        {
+                            Ability a = (Ability)player.AddComponent(behaviour.GetType());
+                            a.sprite = character.activationSprite;
+                            a.objsToSpawn = character.objsToSpawn;
+                        }
+                    }
+
+                    break;
+                }
+            }*/
         }
         else
         {
@@ -362,17 +375,14 @@ public class GameManager : MonoBehaviour
         }
         if (AutoStartLevelGeneration)
         {
+            if(!AudioManager.Instance.isPlaying)
+                AudioManager.Instance.PlayMusic(GetClip("Grassland"));
             levelLoader.LoadLevel();
         }
     }
 
     private void Update()
     {
-        //TESTING
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GameManager.instance.CheckQuests("Test Multiple Step Quest");
-        }
         /*if(GameObject.FindGameObjectWithTag("Player") != null)
         {
             if(textPlayer1 != null)
@@ -434,7 +444,7 @@ public class GameManager : MonoBehaviour
 
     string lastScene;
 
-    public void LoadMap(Texture2D texture, TextAsset textfile, Sprite background, string lastScene)
+    public void LoadMap(Texture2D texture, TextAsset textfile, Sprite background, string lastScene, string clipName)
     {
         this.lastScene = lastScene;
         foreach (var item in backgrounds)
@@ -442,6 +452,10 @@ public class GameManager : MonoBehaviour
             item.GetComponent<SpriteRenderer>().sprite = background;
         }
         levelLoader.sprite = texture;
+        if (AudioManager.Instance.isPlaying)
+            AudioManager.Instance.PlayMusicWithCrossFade(GetClip(clipName),0.25f);
+        else
+            AudioManager.Instance.PlayMusic(GetClip(clipName));
         levelLoader.LoadLevel();
         var player = GameObject.FindGameObjectWithTag("Player");
         GameObject gb = new GameObject("Player_Spawn");
@@ -569,7 +583,7 @@ public class GameManager : MonoBehaviour
     int hiddenKeyNum = 0;
     [SerializeField] private List<HiddenCombis> hiddenCombis;
     HiddenCombis combi;
-    
+
     private void TestForHiddenCombination()
     {
         if (Input.anyKeyDown)
@@ -590,7 +604,7 @@ public class GameManager : MonoBehaviour
                     if (combi.hiddenKeyCode[hiddenKeyNum] == KeyCode.Return)
                     {
                         Debug.Log("Cheat activated!");
-                        Invoke(combi.functionName,0f);
+                        Invoke(combi.functionName, 0f);
                         hiddenKeyNum = 0;
                         combi = null;
                     }
@@ -618,7 +632,7 @@ public class GameManager : MonoBehaviour
 
     void UnlocAll()
     {
-        if(FindObjectOfType<Level_Selector>() != null)
+        if (FindObjectOfType<Level_Selector>() != null)
         {
             FindObjectOfType<Level_Selector>().UnlocAll();
         }

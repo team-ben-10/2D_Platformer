@@ -118,6 +118,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b1bc8f99901eb6468b5cf1b272f319e, type: 2}
   - {fileID: 11400000, guid: dff70321744764241baf612b7aa2ae3e, type: 2}
   currentQuests: []
+  clips:
+  - name: Death
+    clip: {fileID: 8300000, guid: c408ea73b704d5d47974c5a585f2c499, type: 3}
+  - name: Grassland
+    clip: {fileID: 8300000, guid: 79e06127fd0fbde4b9836f009b769346, type: 3}
+  - name: Jump
+    clip: {fileID: 8300000, guid: a45385dfd0b8f3946bdcd3f4923eb56d, type: 3}
+  - name: Pickup
+    clip: {fileID: 8300000, guid: a6f836df99dff004981a0bda0b69fcbc, type: 3}
+  - name: Select
+    clip: {fileID: 8300000, guid: ede4fa300ad2ae54bb2da3526f447515, type: 3}
+  - name: Underground
+    clip: {fileID: 8300000, guid: 552a86733b504d345b11c37c481263d8, type: 3}
+  - name: Snowland
+    clip: {fileID: 8300000, guid: bb85cf3e25c82a54091657d70aad83bd, type: 3}
   hiddenCombis: []
 --- !u!1 &3553923706652637197
 GameObject:

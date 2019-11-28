@@ -26,6 +26,8 @@ public class Level_Selector : MonoBehaviour
         public Sprite background_Image;
         public Sprite previewImage;
         public bool startWithCutscene;
+        [Header("Audio")]
+        public string clipName;
         [Header("Cutescene Settings")]
         public string cutSceneName;
     }
@@ -61,6 +63,7 @@ public class Level_Selector : MonoBehaviour
                     lsp.background = item.background_Image;
                     lsp.cutSceneName = item.cutSceneName;
                     lsp.startWithCutscene = item.startWithCutscene;
+                    lsp.clipName = item.clipName;
 
                     if (item.textFile != null)
                     {

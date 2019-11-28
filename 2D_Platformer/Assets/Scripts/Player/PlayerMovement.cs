@@ -195,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
             controller.m_AirControl = false;
             coroutineWallJump = StartCoroutine(waitForWalljump());
             animator.SetBool("Jump", true);
+            AudioManager.Instance.PlaySFX(GameManager.instance.GetClip("Jump"));
             wallStuckTime = 0;
         }
 
@@ -219,9 +220,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         controller.Move(horizontalMove * Time.deltaTime, crouch, jump);
-        
+
         if (jump)
+        {
             animator.SetBool("Jump", true);
+        }
         if (jump)
             jump = false;
     }

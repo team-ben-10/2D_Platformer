@@ -18,7 +18,6 @@ public class SceneMover : MonoBehaviour
     {
         if (unlocableName != "") {
             var b = GameManager.instance.IsUnloced(unlocableName);
-            Debug.Log(b);
             if (!b)
             {
                 gameObject.SetActive(false);

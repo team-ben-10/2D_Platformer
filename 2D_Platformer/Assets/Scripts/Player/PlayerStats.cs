@@ -95,6 +95,8 @@ public class PlayerStats : CharacterStats
 
     public override void Die()
     {
+        if(!isDead)
+            AudioManager.Instance.PlaySFX(GameManager.instance.GetClip("Death"));
         if (GetComponent<PlayerMovement>().isNotMain && !isDead)
         {
             GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Remove(transform);
@@ -182,6 +184,7 @@ public class PlayerStats : CharacterStats
         GameObject.FindGameObjectWithTag("VirtualCam").GetComponent<CameraMovement>().targets.Add(transform);
         isDead = false;
         GameManager.instance.UpdatePlayer();
+        GetComponent<PlayerMovement>().crouch = false;
     }
 
 }
