@@ -20,6 +20,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+
         if(targets.Count > 1)
         {
             virtualCamera.enabled = false;
@@ -37,6 +38,7 @@ public class CameraMovement : MonoBehaviour
             virtualCamera.enabled = true;
             Camera.main.GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
         }
+        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Mathf.Clamp(Camera.main.transform.position.y, 8, 100000), Camera.main.transform.position.z);
     }
 
     public void SetFollow(Transform transform)
