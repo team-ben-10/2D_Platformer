@@ -467,6 +467,12 @@ MonoBehaviour:
     isEntityObject: 0
     hasAlphaNBT: 0
     offset: {x: 0, y: 0}
+  - color: {r: 1, g: 0.21568628, b: 0.21568628, a: 0}
+    obj: {fileID: 5933614514391938535, guid: 2f4374572267c314ab89ffe143054726, type: 3}
+    isChild: 1
+    isEntityObject: 1
+    hasAlphaNBT: 1
+    offset: {x: 0, y: 0}
   sprite: {fileID: 2800000, guid: b4d392192929c8f48b7e978d2dd8bcb9, type: 3}
   offset: {x: 0, y: 0}
   cam: {fileID: 0}

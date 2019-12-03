@@ -1710,7 +1710,7 @@ MonoBehaviour:
       clipName: 
       cutSceneName: 
     - levelName: Desert 2
-      texture: {fileID: 2800000, guid: bda7ea0b258dd2b4cb9209797f0ffdad, type: 3}
+      texture: {fileID: 2800000, guid: 530192c9291569946a6d0d2112d20208, type: 3}
       textFile: {fileID: 4900000, guid: 147752303a41ccc4abb54ce241d02fea, type: 3}
       background_Image: {fileID: 21300000, guid: 3ee2dc9802326b74a896a4e68fe8d826,
         type: 3}

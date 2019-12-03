@@ -177,6 +177,7 @@ public class Level_Editor : MonoBehaviour
                             gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
                             if (gb.GetComponent(render.GetType()) == null)
                                 gb.AddComponent(render.GetType());
+                            continue;
                         }
 
                     }

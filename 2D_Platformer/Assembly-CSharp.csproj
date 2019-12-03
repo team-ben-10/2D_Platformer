@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\Enemies\Enemy_Dungeon_2_Boss.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy_MiniBoss.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy_Opossum.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Enemy_Pokey.cs" />
     <Compile Include="Assets\Scripts\Finish_Point.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GravitySwapper.cs" />
