@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class UfoAbility : Ability
 {
-   
-   
+
+    InputManager.KeyPreset preset;
+    private void Start()
+    {
+        preset = InputManager.instance.GetPreset(transform.tag);
+    }
+
+
     // Update is called once per frame
     void Update()
     {
         if(GetComponent<PlayerStats>().mushroomEffect != null)
             return;
-        if (Input.GetButton("Jump" + (transform.tag=="Player"?"": ("_"+transform.tag))) && !gameObject.GetComponent<CharacterController2D>().m_Grounded && !gameObject.GetComponent<PlayerMovement>().onWall && GetComponent<SpriteRenderer>().sprite == sprite && GetComponent<Rigidbody2D>().velocity.y <= 0)
+        if (InputManager.instance.GetButton("Jump",preset) && !gameObject.GetComponent<CharacterController2D>().m_Grounded && !gameObject.GetComponent<PlayerMovement>().onWall && GetComponent<SpriteRenderer>().sprite == sprite && GetComponent<Rigidbody2D>().velocity.y <= 0)
         {
             //gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
             Vector3 vel = gameObject.GetComponent<Rigidbody2D>().velocity;

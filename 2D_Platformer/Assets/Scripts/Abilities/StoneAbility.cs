@@ -7,22 +7,25 @@ public class StoneAbility : Ability
     
     Vector2 standardGravity;
 
+    InputManager.KeyPreset preset;
+
     void Start()
     {
         standardGravity = Physics2D.gravity;
+        preset = InputManager.instance.GetPreset(transform.tag);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Crouch" + (transform.tag == "Player" ? "" : ("_" + transform.tag))))
+        if (InputManager.instance.GetButton("Crouch",preset))
         {
             if (Time.timeScale > 0.5f)
             {
                 Time.timeScale -= 0.025f;
             }
         }
-        if (!Input.GetButton("Crouch" + (transform.tag == "Player" ? "" : ("_" + transform.tag))))
+        if (!InputManager.instance.GetButton("Crouch", preset))
         {
             if (Time.timeScale < 1f)
                 Time.timeScale += 0.025f;

@@ -22,7 +22,7 @@ public class Level_Loader_Search : Editor
             {
                 if (item.obj.name.ToLower().StartsWith(searchText))
                 {
-                    EditorGUILayout.LabelField(item.obj.name + " " + i);
+                    EditorGUILayout.LabelField(i + " " + item.obj.name + " " + item.color.r * 255 + " " + item.color.g * 255 + " " + item.color.b * 255);
                 }
                 i++;
             }

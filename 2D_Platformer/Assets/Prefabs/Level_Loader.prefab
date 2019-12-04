@@ -215,6 +215,12 @@ MonoBehaviour:
     isEntityObject: 1
     hasAlphaNBT: 0
     offset: {x: 0, y: 0}
+  - color: {r: 0.19607843, g: 0.19607843, b: 0.48235294, a: 1}
+    obj: {fileID: 5714363081947077422, guid: 4167f96f7cc21464281db487c899c66a, type: 3}
+    isChild: 1
+    isEntityObject: 1
+    hasAlphaNBT: 0
+    offset: {x: 0, y: 0}
   - color: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
     obj: {fileID: 8642804752578158799, guid: 5c99ed2c9d849504d8ca6b7112bc7d4b, type: 3}
     isChild: 1

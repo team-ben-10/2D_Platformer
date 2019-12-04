@@ -5,12 +5,15 @@ using UnityEngine;
 public class VisInstaKillMushroomEffect : MushroomEffect
 {
     int nbt;
+
+    LevelInteracte interacte;
     private void Start()
     {
         if (GetComponent<AlphaNBTTag>() != null)
             nbt = GetComponent<AlphaNBTTag>().NBT;
         else
             nbt = -1;
+        interacte = GetComponent<LevelInteracte>();
     }
     
     public override void OnDraw(GameObject player, float TimeLeft)
@@ -22,11 +25,13 @@ public class VisInstaKillMushroomEffect : MushroomEffect
     {
         if (oldNBT != nbt)
         {
-            foreach (var item in GameObject.FindGameObjectsWithTag("LeverInteract"))
+            var objs = GameObject.FindGameObjectsWithTag("LeverInteract");
+            foreach (var item in objs)
             {
-                if (item.GetComponent<LevelInteracte>().NBT == nbt)
+                LevelInteracte i = item.GetComponent<LevelInteracte>();
+                if (i.NBT == nbt)
                 {
-                    item.GetComponent<LevelInteracte>().InteractOff();
+                    i.InteractOff();
                 }
             }
         }
@@ -47,16 +52,17 @@ public class VisInstaKillMushroomEffect : MushroomEffect
                 GameManager.instance.CheckQuests("A Mysterious Heart");
                 givenDarkness = true;
             }
-        if (GameObject.FindGameObjectsWithTag("LeverInteract").Length > 0)
+        var objs = GameObject.FindGameObjectsWithTag("LeverInteract");
+        if (objs.Length > 0)
         {
-            foreach (var item in GameObject.FindGameObjectsWithTag("LeverInteract"))
+            foreach (var item in objs)
             {
-                Debug.Log(item.name);
-                if (item != GetComponent<LevelInteracte>())
+                if (item != interacte)
                 {
-                    if (item.GetComponent<LevelInteracte>().NBT == nbt)
+                    var lI = item.GetComponent<LevelInteracte>();
+                    if (lI.NBT == nbt)
                     {
-                        item.GetComponent<LevelInteracte>().InteractOn();
+                        lI.InteractOn();
                     }
                 }
             }
