@@ -19,6 +19,7 @@ public class Level_Selection_Prefab : MonoBehaviour
 
     public GameObject crateImage;
     public TextMeshProUGUI text;
+    public string levelName;
 
     public void SetLevelSelection()
     {
@@ -28,13 +29,20 @@ public class Level_Selection_Prefab : MonoBehaviour
         Level_Selector_GB.instance.textFile = file;
         Level_Selector_GB.instance.background = background;
         Level_Selector_GB.instance.clipName = clipName;
+        Level_Selector_GB.instance.levelName = levelName;
         if (startWithCutscene)
         {
             Level_Selector_GB.instance.isCutscene = true;
+            LoadManager.Instance.background.sprite = background;
+            LoadManager.Instance.levelText.text = levelName;
             LoadManager.Instance.LoadScene(cutSceneName);
         }
         else
+        {
+            LoadManager.Instance.background.sprite = background;
+            LoadManager.Instance.levelText.text = levelName;
             LoadManager.Instance.LoadScene("SampleScene");
+        }
     }
 
     public void setDiamonds(int diamonds)

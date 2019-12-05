@@ -175,6 +175,8 @@ public class PlayerMovement : MonoBehaviour
     
     Coroutine coroutineWallJump;
 
+    float oldGravity = 3;
+
     private void FixedUpdate()
     {
         if (controller.m_Grounded)
@@ -201,6 +203,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (onWall && crouch && !isGravityChanged && !controller.m_Grounded && wallStuckTime <= 2)
         {
+            if(oldGravity == rb.gravityScale)
+                oldGravity = rb.gravityScale;
             rb.gravityScale = 0;
             rb.velocity = Vector2.zero;
             isGravityChanged = true;
@@ -211,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (((!onWall || !crouch || controller.m_Grounded) && isGravityChanged)||wallStuckTime > 2)
         {
-            rb.gravityScale = 3;
+            rb.gravityScale = oldGravity;
             isGravityChanged = false;
         }
         if (controller.m_Grounded)

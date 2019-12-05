@@ -64,6 +64,7 @@ public class Level_Selector : MonoBehaviour
                     lsp.cutSceneName = item.cutSceneName;
                     lsp.startWithCutscene = item.startWithCutscene;
                     lsp.clipName = item.clipName;
+                    lsp.levelName = item.levelName;
 
                     if (item.textFile != null)
                     {

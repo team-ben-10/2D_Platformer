@@ -16,6 +16,7 @@ public class Level_Selector_GB : MonoBehaviour
     }
 
     public string lastScene;
+    public string levelName;
     public string clipName;
 
     [HideInInspector]
@@ -35,6 +36,7 @@ public class Level_Selector_GB : MonoBehaviour
                 }
                 Cursor.lockState = CursorLockMode.Locked;
                 Destroy(gameObject);
+                gameManager.levelName.text = levelName;
             }
         }
         if(level == SceneManager.GetSceneByName("Level_Creator").buildIndex)

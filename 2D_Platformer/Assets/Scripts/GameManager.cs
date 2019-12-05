@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public int time;
     float currentTime = float.MaxValue;
     public TextMeshProUGUI text;
+    public TextMeshProUGUI levelName;
     public Image TimeBarFill;
     public Image MushroomFillTime;
     public GameObject[] backgrounds;

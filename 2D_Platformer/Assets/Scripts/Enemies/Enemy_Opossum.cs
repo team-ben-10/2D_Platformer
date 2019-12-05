@@ -12,6 +12,7 @@ public class Enemy_Opossum : Enemy
             Destroy(this.gameObject);
             var Kinderriegel = col.transform.GetComponent<Rigidbody2D>().velocity;
             col.transform.GetComponent<Rigidbody2D>().velocity = new Vector2(Kinderriegel.x, 10);
+            AudioManager.Instance.PlaySFX(GameManager.instance.GetClip("Kill"));
             alive = false;
         }
         else if(alive)

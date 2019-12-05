@@ -13,6 +13,9 @@ public class LoadManager : MonoBehaviour
     [SerializeField]
     GameObject loadingScrene;
 
+    public TMPro.TextMeshProUGUI levelText;
+    public Image background;
+
     private void Awake()
     {
         if (Instance != null)
