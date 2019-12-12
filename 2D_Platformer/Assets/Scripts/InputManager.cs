@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,6 +59,18 @@ public class InputManager : MonoBehaviour
         {
             return axes.Find(x => x.name == name);
         }
+    }
+
+    public KeyCode GetPressedKey()
+    {
+        foreach (KeyCode item in Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKeyDown(item))
+            {
+                return item;
+            }
+        }
+        return KeyCode.None;
     }
 
     private void Awake()

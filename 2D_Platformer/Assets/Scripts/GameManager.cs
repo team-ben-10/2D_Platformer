@@ -384,6 +384,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        /*if(Input.anyKeyDown)
+            Debug.Log(InputManager.instance.GetPressedKey());*/
         /*if(GameObject.FindGameObjectWithTag("Player") != null)
         {
             if(textPlayer1 != null)
