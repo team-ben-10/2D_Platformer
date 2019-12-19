@@ -8,7 +8,10 @@ public class Path_Object : MonoBehaviour
     public Path_Object lastObject;
     public BoxCollider2D coll;
     public bool isSet = false;
+
+
     public void Check() {
+
         checkColls(new Vector3(1, 0, 0));
         checkColls(new Vector3(0, 1, 0));
         checkColls(new Vector3(0, -1, 0));
@@ -38,5 +41,17 @@ public class Path_Object : MonoBehaviour
         coll.enabled = false;
         GetComponent<SpriteRenderer>().color = Color.red;
         lastObject = lastOBJ;
+
+        if (lastObject != null)
+        {
+            LineRenderer lr = gameObject.AddComponent<LineRenderer>();
+            lr.startWidth = 0.1f;
+            lr.endWidth = 0.1f;
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, lastObject.transform.position);
+            lr.material = new Material(Shader.Find("Standard"));
+            lr.startColor = new Color(0,0,0,0.1f);
+            lr.endColor = new Color(0,0,0,0.1f);
+        }
     }
 }
