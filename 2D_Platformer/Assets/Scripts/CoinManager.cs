@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-
-
+using UnityEngine.SceneManagement;
 
 public class CoinManager : MonoBehaviour
 {
     public int coins;
     public int allCoins;
+    TMPro.TextMeshProUGUI coinCounter;
 
     public static CoinManager instance;
 
@@ -21,16 +21,27 @@ public class CoinManager : MonoBehaviour
     public void AddCoin()
     {
         coins++;
+        coinCounter.text = coins + "";
     }
 
     public void SaveCoins()
     {
+        allCoins += coins;
+        coins = 0;
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/coins.kys";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        formatter.Serialize(stream, coins);
+        formatter.Serialize(stream, allCoins);
         stream.Close();
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if(level == SceneManager.GetSceneByName("SampleScene").buildIndex)
+        {
+            coinCounter = GameObject.Find("CoinCounter")?.GetComponent<TMPro.TextMeshProUGUI>();
+        }
     }
 
     public int LoadCoins()

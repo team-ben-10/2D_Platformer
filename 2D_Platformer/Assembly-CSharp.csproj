@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Jump_Block.cs" />
     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Abilities\CorruptedAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\DashAbility.cs" />
@@ -80,6 +79,8 @@
     <Compile Include="Assets\Scripts\CharacterController2D.cs" />
     <Compile Include="Assets\Scripts\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
+    <Compile Include="Assets\Scripts\Coin.cs" />
+    <Compile Include="Assets\Scripts\CoinManager.cs" />
     <Compile Include="Assets\Scripts\Conveyor.cs" />
     <Compile Include="Assets\Scripts\Corrupted_Opossum_Miniboss.cs" />
     <Compile Include="Assets\Scripts\CreatorManager.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\InvisBlock.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\Jump_Block.cs" />
     <Compile Include="Assets\Scripts\Level Stuff\Level_Editor.cs" />
     <Compile Include="Assets\Scripts\Level Stuff\Level_Selection_Prefab.cs" />
     <Compile Include="Assets\Scripts\Level Stuff\Level_Selector.cs" />
