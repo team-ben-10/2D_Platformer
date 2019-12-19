@@ -38,6 +38,7 @@ public class Finish_Point : MonoBehaviour
                         }
                     }
             }
+            CoinManager.instance.SaveCoins();
             isTriggered = true;
             GameManager.instance.Win();
         }
