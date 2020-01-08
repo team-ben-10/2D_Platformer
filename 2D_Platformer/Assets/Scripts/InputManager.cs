@@ -76,10 +76,13 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         //Debug.Log(string.Join(", ", Input.GetJoystickNames()));
-        DontDestroyOnLoad(gameObject);
         if (instance != null)
-            Destroy(instance.gameObject);
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public bool GetButtonDown(string name, KeyPreset preset)
