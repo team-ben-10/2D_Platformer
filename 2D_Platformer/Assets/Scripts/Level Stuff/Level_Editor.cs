@@ -82,6 +82,29 @@ public class Level_Editor : MonoBehaviour
     [HideInInspector]
     public List<GameObject> entityObjects = new List<GameObject>();
 
+    public bool CheckSurroundingPixels(int x, int y)
+    {
+        List<ColorObj> entityObjects = objs.FindAll(a => a.isEntityObject);
+
+        for (int x1 = -1; x1 <= 1; x1++)
+        {
+            for (int y1 = -1; y1 <= 1; y1++)
+            {
+                if (y1 == 0 && x1 == 0)
+                    continue;
+                if (x + x1 < 0 || x + x1 > sprite.width || y + y1 < 0 || y + y1 > sprite.height)
+                    continue;
+                var color = sprite.GetPixel(x + x1, y + y1);
+                if (entityObjects.Exists(a => a.color.r == color.r && a.color.g == color.g && a.color.b == color.b))
+                {
+                    return true;
+                }
+                if (color.a == 0)
+                    return true;
+            }
+        }
+        return false;
+    }
     public void LoadLevel()
     {
         //objs.ForEach((x) => Debug.Log(x.obj.name + " " + x.hasAlphaNBT));
@@ -151,6 +174,12 @@ public class Level_Editor : MonoBehaviour
                                     OBJPos.Add(gb.transform.position, item);
                                     entityObjects.Add(gb);
                                 }
+                                else
+                                {
+                                    var needsCol = CheckSurroundingPixels(x, y);
+                                    if (!needsCol)
+                                        Destroy(gb.GetComponent<Collider2D>());
+                                }
                                 loadedOBJS.Add(gb);
                                 if (gb.GetComponent(render.GetType()) == null)
                                     gb.AddComponent(render.GetType());
@@ -211,8 +240,7 @@ public class Level_Editor : MonoBehaviour
                                         OBJPos.Add(gb.transform.position, item);
                                         entityObjects.Add(gb);
                                     }
-                                    if (gb.GetComponent(render.GetType()) == null)
-                                        gb.AddComponent(render.GetType());
+                                    
                                 }
                             }
                             else
@@ -226,6 +254,12 @@ public class Level_Editor : MonoBehaviour
                                 {
                                     OBJPos.Add(gb.transform.position, item);
                                     entityObjects.Add(gb);
+                                }
+                                else
+                                {
+                                    var needsCol = CheckSurroundingPixels(x, y);
+                                    if (!needsCol)
+                                        Destroy(gb.GetComponent<Collider2D>());
                                 }
                                 loadedOBJS.Add(gb);
                                 if (gb.GetComponent(render.GetType()) == null)
