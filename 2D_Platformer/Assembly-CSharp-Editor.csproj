@@ -65,8 +65,6 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\Level_Loader_Search.cs" />
     <Compile Include="Assets\Editor\TexturePostProcessor.cs" />
-    <Compile Include="Assets\Simple Health Bar\Editor\SimpleHealthBarEditor.cs" />
-    <Compile Include="Assets\Simple Health Bar\Editor\SimpleHealthBarWindow.cs" />
     <Reference Include="Cinemachine">
       <HintPath>C:/Users/mgraf/Documents/GitHub/2D_Platformer/2D_Platformer/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
     </Reference>
