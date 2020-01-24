@@ -374,7 +374,7 @@ MonoBehaviour:
   isNotMain: 0
   otherPlayer: {fileID: 3171209620580287741}
   PlayerSpawnIndex: 2
-  MaxPlayerAtATime: 4
+  MaxPlayerAtATime: 1
 --- !u!114 &3338122321634410226
 MonoBehaviour:
   m_ObjectHideFlags: 0

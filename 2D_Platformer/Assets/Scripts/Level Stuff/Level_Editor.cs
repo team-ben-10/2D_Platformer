@@ -120,6 +120,7 @@ public class Level_Editor : MonoBehaviour
                 Destroy(loadedOBJS[i]);
             }
         }
+        loadedOBJS = new List<GameObject>();
         loadedOBJS.Clear();
         ColorObj lastObject = null;
         for (int i = 0; i < sprite.width * sprite.height; i++)
@@ -204,8 +205,6 @@ public class Level_Editor : MonoBehaviour
                             }
                             loadedOBJS.Add(gb);
                             gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
-                            if (gb.GetComponent(render.GetType()) == null)
-                                gb.AddComponent(render.GetType());
                             continue;
                         }
 
@@ -225,8 +224,6 @@ public class Level_Editor : MonoBehaviour
                                     GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
                                     gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
                                     gb.transform.SetParent(transform);
-                                    if (gb.GetComponent(render.GetType()) == null)
-                                        gb.AddComponent(render.GetType());
                                 }
                                 else
                                 {
@@ -262,8 +259,6 @@ public class Level_Editor : MonoBehaviour
                                         Destroy(gb.GetComponent<Collider2D>());
                                 }
                                 loadedOBJS.Add(gb);
-                                if (gb.GetComponent(render.GetType()) == null)
-                                    gb.AddComponent(render.GetType());
                             }
                         }
                     }
@@ -285,8 +280,6 @@ public class Level_Editor : MonoBehaviour
                             }
                             loadedOBJS.Add(gb);
                             gb.AddComponent<AlphaNBTTag>().setNBT((int)(c.a * 255));
-                            if (gb.GetComponent(render.GetType()) == null)
-                                gb.AddComponent(render.GetType());
                         }
 
                     }

@@ -114,7 +114,7 @@ MonoBehaviour:
     hasAlphaNBT: 0
     offset: {x: 0.21, y: 0}
   - color: {r: 0, g: 0, b: 1, a: 1}
-    obj: {fileID: 3736776786024581541, guid: aea63521370b4f94dafd713ffa909454, type: 3}
+    obj: {fileID: 1307033784106200162, guid: a090b3f45eaf8c44c91de3e6ea68176c, type: 3}
     isChild: 1
     isEntityObject: 1
     hasAlphaNBT: 0

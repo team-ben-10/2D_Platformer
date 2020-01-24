@@ -19,7 +19,9 @@ public class StartScreneGameplay : MonoBehaviour
 
     void Update()
     {
-        if(InputManager.instance.GetButtonDown("Jump",InputManager.instance.GetPreset("Player")) || InputManager.instance.GetButtonDown("Crouch", InputManager.instance.GetPreset("Player")) || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().horizontalMove != 0)
+        if(InputManager.instance.GetButtonDown("Jump",InputManager.instance.GetPreset("Player")) ||
+            InputManager.instance.GetButtonDown("Crouch", InputManager.instance.GetPreset("Player")) ||
+            GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerMovement>().horizontalMove != 0)
         {
             currentTimer = 3;
             controller.SetBool("FadeIn", false);

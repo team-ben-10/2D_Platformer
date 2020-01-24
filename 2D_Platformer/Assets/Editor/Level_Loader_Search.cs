@@ -6,6 +6,8 @@ using UnityEditor;
 [CustomEditor(typeof(Level_Editor))]
 public class Level_Loader_Search : Editor
 {
+
+#if UNITY_EDITOR
     string searchText = "";
     bool foldout = true;
     public override void OnInspectorGUI()
@@ -28,4 +30,5 @@ public class Level_Loader_Search : Editor
             }
         }
     }
+#endif
 }
