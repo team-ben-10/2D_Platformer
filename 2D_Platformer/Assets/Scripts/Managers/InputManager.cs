@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -9,6 +10,16 @@ public class InputManager : MonoBehaviour
 
     [SerializeField]
     List<KeyPreset> presets = new List<KeyPreset>();
+
+    private void Start()
+    {
+        Load();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
 
     [System.Serializable]
     public class KeyPair
@@ -81,6 +92,7 @@ public class InputManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        inputPath = Application.persistentDataPath + "/input";
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -125,5 +137,22 @@ public class InputManager : MonoBehaviour
         return presets.Find(x => x.name == name);
     }
 
+    private string inputPath;
+    public void Save()
+    {
+        if(!File.Exists(inputPath))
+            File.Create(inputPath).Close();
+        string txt = JsonUtility.ToJson(presets[0]);
+        File.WriteAllText(inputPath,txt);
+    }
 
+    public void Load()
+    {
+        if (File.Exists(inputPath))
+        {
+            string txt = File.ReadAllText(inputPath);
+            Debug.Log(txt);
+            presets[0] = JsonUtility.FromJson<KeyPreset>(txt);
+        }
+    }
 }

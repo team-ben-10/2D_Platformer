@@ -2584,6 +2584,11 @@ PrefabInstance:
       propertyPath: levelName
       value: 
       objectReference: {fileID: 1747269644}
+    - target: {fileID: 3164825940605430778, guid: 8b0bd9528e73a9745b2bf69ea62b0d6f,
+        type: 3}
+      propertyPath: useCancelToExit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3164825940605430777, guid: 8b0bd9528e73a9745b2bf69ea62b0d6f,
         type: 3}
       propertyPath: m_LocalPosition.x

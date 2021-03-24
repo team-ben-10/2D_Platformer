@@ -8,7 +8,6 @@ using UnityEngine;
 public class Level_Editor : MonoBehaviour
 {
     public static Level_Editor instance;
-    public Behaviour render;
 
     private void OnDrawGizmosSelected()
     {
@@ -144,8 +143,6 @@ public class Level_Editor : MonoBehaviour
                                     GameObject gb = Instantiate(CreatorManager.instance.playerSpawn, new Vector2(x, y) - offset + new Vector2(0, 0.365f), Quaternion.identity);
                                     gb.transform.localScale = gb.transform.localScale * (1 + (1 - GameManager.instance.levelLoader.SpaceBetweenOBJS));
                                     gb.transform.SetParent(transform);
-                                    if (gb.GetComponent(render.GetType()) == null)
-                                        gb.AddComponent(render.GetType());
                                 }
                                 else
                                 {
@@ -159,8 +156,6 @@ public class Level_Editor : MonoBehaviour
                                         OBJPos.Add(gb.transform.position, item);
                                         entityObjects.Add(gb);
                                     }
-                                    if (gb.GetComponent(render.GetType()) == null)
-                                        gb.AddComponent(render.GetType());
                                 }
                             }
                             else
@@ -182,8 +177,6 @@ public class Level_Editor : MonoBehaviour
                                         Destroy(gb.GetComponent<Collider2D>());
                                 }
                                 loadedOBJS.Add(gb);
-                                if (gb.GetComponent(render.GetType()) == null)
-                                    gb.AddComponent(render.GetType());
                             }
                         }
                     }
@@ -316,8 +309,6 @@ public class Level_Editor : MonoBehaviour
                     entityObjects.Add(gb);
                 }
                 loadedOBJS.Add(gb);
-                if (gb.GetComponent(render.GetType()) == null)
-                    gb.AddComponent(render.GetType());
                 return gb;
             }
         }
@@ -345,8 +336,6 @@ public class Level_Editor : MonoBehaviour
             loadedOBJS.Add(gb);
             if (item.Value.hasAlphaNBT)
                 gb.AddComponent<AlphaNBTTag>().setNBT((int)(item.Value.color.a * 255));
-            if (gb.GetComponent(render.GetType()) == null)
-                gb.AddComponent(render.GetType());
         }
         OBJPos = dic;
     }

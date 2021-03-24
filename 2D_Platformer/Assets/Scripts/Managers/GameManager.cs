@@ -397,13 +397,13 @@ public class GameManager : MonoBehaviour
                 textPlayer2.transform.position = GameObject.FindGameObjectWithTag("Player_2").transform.position + Vector3.up;
         }*/
         TestForHiddenCombination();
-
-        if (onlyUnlocables)
-            return;
-        if (Input.GetButtonDown("Cancel") && useCancelToExit)
+        if (InputManager.instance.GetButtonDown("Cancel",InputManager.instance.GetPreset("Player")) && useCancelToExit)
         {
             LoadManager.Instance.LoadScene("Level_Selection");
         }
+        if (onlyUnlocables)
+            return;
+        
         if (currentTime != -1)
         {
             text.text = Mathf.Round(currentTime) + "s" + ((bestTime != -1) ? (bestTime < currentTime) ? "/" + Mathf.Round(bestTime) + "s" : "" : "");

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -56,6 +57,8 @@ public class Level_Selector : MonoBehaviour
                 {
                     
                     GameObject gb = Instantiate(Level_Select_Prefab, worldGB.transform);
+                    if(worldIndex == 1 && levelIndex == 1)
+                        EventSystem.current.SetSelectedGameObject(gb);
                     gb.GetComponent<Image>().sprite = item.previewImage;
                     var lsp = gb.GetComponent<Level_Selection_Prefab>();
                     lsp.texture = item.texture;
